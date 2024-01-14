@@ -48,6 +48,13 @@
         font-size: 1.5em;
         margin: 0 auto;
     }
+    #rero-button {
+        background-color: rgb(35, 35, 35);
+        color: white;
+        font-size: 1.5em;
+        margin: 0 auto;
+    }
+
 
     #result {
         font-size: 1.5em;
@@ -58,6 +65,7 @@
 <body>
     
   <div id="question-container">
+    <button id="rero-button" onclick="location.href='https://www.youtube.com/watch?v=mwSq9dhpn8Y';">宥勝詳解</button>
     <div id="counter">當前題數: <span id="current-question">0</span> 答對題目數: <span id="correct-count">0</span> 答錯題目數: <span id="wrong-count">0</span> 正確率: <span id="accuracy">0%</span></div>
     <h1 id="chinese-word"></h1>
     <input type="text" id="user-input" placeholder="請輸入答案" onkeydown="checkOnEnter(event)">
