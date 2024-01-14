@@ -817,7 +817,7 @@
         let hint = "";
         let engstring = jsonData[currentIndex].English.split(" ");
         for (let i = 0; i < engstring.length; i++) {
-            if (engstring[i].length <= 1) {
+            if (engstring[i].length <= 0) {
             } else if (engstring[i].length<3) {
                 hint = hint + "_ ";
             } else {
