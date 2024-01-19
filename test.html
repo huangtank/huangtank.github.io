@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>看好了我只示範一次</title>
+    <title>看好了 我只示範一次</title>
     <style>
     body{
         background: #25252b;
@@ -16,7 +16,9 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-    .repeating-conic-gradient
+
+
+    #repeating-conic-gradient
     {
         position: relative;
         width: 10em;
@@ -44,7 +46,7 @@
             --a:360deg;
         }
     }
-    .repeating-conic-gradient::before
+    #repeating-conic-gradient::before
     {
         content: '';
         position: absolute;
@@ -55,7 +57,7 @@
         animation-delay: -1s;
         border-radius: 20px;
     }
-    .repeating-conic-gradient::after
+    #repeating-conic-gradient::after
     {
         content: '';
         position: absolute;
@@ -65,10 +67,112 @@
         background-size: 100% auto;
         border-radius: 15px;
     }
+
+
+    .two_card 
+    {
+    margin: auto;
+    width: 400px;
+    aspect-ratio: 1 / 0.7;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    }
+    .two_card .two_image-box 
+    {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    }
+    .two_card .two_image-box img 
+    {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 90%;
+    border-radius: inherit;
+    transition: 0.5s ease-in-out;
+    }
+
+    .two_card::after 
+    {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid white;
+    border-radius: inherit;
+    opacity: 0;
+    transition: 0.4s ease-in-out;
+    }
+
+    .two_card:hover img 
+    {
+    filter: grayscale(1) brightness(0.4);
+    }
+    .two_card:hover::after 
+    {
+    opacity: 1;
+    inset: 20px;
+    }
+
+    .two_content 
+    {
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    }
+
+    .two_content h2,
+    .two_content p 
+    {
+    opacity: 0;
+    transition: 0.4s 0.2s ease;
+    }
+    .two_content h2 
+    {
+    color: #d1d1d1;
+    margin-bottom: 12px;
+    scale: 0.7;
+    }
+    .two_content p 
+    {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #d1d1d1;
+    transform: translateY(50%);
+    }
+    .two_card:hover .two_content h2 
+    {
+    scale: 1;
+    opacity: 1;
+    }
+    .two_card:hover .two_content P 
+    {
+    opacity: 1;
+    transform: translateY(0);
+    }
+
+
+
+
     </style>
 </head>
 <body>
     <h1>範例一</h1>
-    <div class="repeating-conic-gradient"></div>
+    <div id="repeating-conic-gradient"></div>
+    <br>
+    <h1>範例二</h1>
+    <div class="two_card">
+    <div class="two_image-box">
+        <img src="images/hsiang-shan.jpg">
+    </div>
+    <div class="two_content">
+        <h2>這是間在新竹的香下學校</h2>
+        <p>接著看下去......</p>
+    </div>
+    </div>
 </body>
 </html>
