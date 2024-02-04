@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>test</title>
+</head>
+<body>
+	<form method="post">
+		<input type="text" name="user" user="ewe">
+		<input type="submit" name="send" value="送出">
+	</form>
+    {% if name != "" %}
+	<p>玩家的UUID是{{name}}</p>
+    <p>玩家的成就表：</p>
+    <ul>
+        {% for achievement in advance %}
+            <li>{{ achievement }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

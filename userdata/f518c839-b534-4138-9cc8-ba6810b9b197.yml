@@ -1,0 +1,38 @@
+teleportenabled: true
+teleportauto: false
+godmode: false
+muted: false
+jailed: false
+ip-address: 220.133.189.95
+afk: false
+socialspy: false
+npc: false
+powertoolsenabled: true
+accepting-pay: true
+baltop-exempt: false
+timestamps:
+  lastteleport: 0
+  lastheal: 0
+  mute: 0
+  jail: 0
+  onlinejail: 0
+  logout: 1706784834750
+  login: 1706785008675
+money: '200'
+last-account-name: __ChenChen__
+lastlocation:
+  world: c99c932b-d2c8-460a-8a0a-8e50417e6250
+  world-name: Spawn
+  x: -5597.699999988079
+  y: 134.0
+  z: -1709.1854040196915
+  yaw: 91.95883178710938
+  pitch: 10.949987411499023
+logoutlocation:
+  world: c99c932b-d2c8-460a-8a0a-8e50417e6250
+  world-name: Spawn
+  x: -5628.64139764932
+  y: 127.5
+  z: -1623.8158722232886
+  yaw: -167.6907501220703
+  pitch: 9.30002212524414
