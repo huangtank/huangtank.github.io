@@ -8,8 +8,7 @@
     body{
         background: #25252b;
     }
-    .start
-    {
+    .start {
         text-align: center;
         font-size: 3em;
         background: linear-gradient(90deg, #00ffff, #ff00c3);
@@ -18,8 +17,7 @@
         -webkit-text-fill-color: transparent;
     }
     /* 範例一 */
-    #repeating-conic-gradient
-    {
+    #repeating-conic-gradient {
         position: relative;
         width: 10em;
         height: 10em;
@@ -29,14 +27,12 @@
         animation: animate 4s linear infinite;
         border-radius: 20px;
     }
-    @property --a
-    {
+    @property --a {
         syntax: '<angle>';
             inherits: false;
             initial-value: 0deg;
     }
-    @keyframes animate
-    {
+    @keyframes animate {
         0%
         {
             --a: 0deg;
@@ -46,8 +42,7 @@
             --a:360deg;
         }
     }
-    #repeating-conic-gradient::before
-    {
+     #repeating-conic-gradient::before {
         content: '';
         position: absolute;
         width: 100%;
@@ -57,8 +52,7 @@
         animation-delay: -1s;
         border-radius: 20px;
     }
-    #repeating-conic-gradient::after
-    {
+    #repeating-conic-gradient::after {
         content: '';
         position: absolute;
         inset: 8px;
@@ -70,8 +64,7 @@
 
     
     /* 範例二 */
-    .two_card 
-    {
+    .two_card {
     margin: auto;
     width: 400px;
     aspect-ratio: 1 / 0.7;
@@ -79,14 +72,12 @@
     position: relative;
     cursor: pointer;
     }
-    .two_card .two_image-box 
-    {
+    .two_card .two_image-box {
     width: 100%;
     height: 100%;
     border-radius: inherit;
     }
-    .two_card .two_image-box img 
-    {
+    .two_card .two_image-box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -95,8 +86,7 @@
     transition: 0.5s ease-in-out;
     }
 
-    .two_card::after 
-    {
+    .two_card::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -106,18 +96,15 @@
     transition: 0.4s ease-in-out;
     }
 
-    .two_card:hover img 
-    {
+    .two_card:hover img {
     filter: grayscale(1) brightness(0.4);
     }
-    .two_card:hover::after 
-    {
+    .two_card:hover::after {
     opacity: 1;
     inset: 20px;
     }
 
-    .two_content 
-    {
+    .two_content {
     width: 80%;
     position: absolute;
     top: 50%;
@@ -127,38 +114,32 @@
     }
 
     .two_content .two,
-    .two_content h2
-    {
+    .two_content h2 {
     opacity: 0;
     transition: 0.4s 0.2s ease;
     }
-    .two_content .two 
-    {
+    .two_content .two {
     color: #d1d1d1;
     margin-bottom: 12px;
     scale: 0.7;
     }
-    .two_content h2 
-    {
+    .two_content h2 {
     font-size: 14px;
     line-height: 1.5;
     color: #d1d1d1;
     transform: translateY(50%);
     }
-    .two_card:hover .two_content .two 
-    {
+    .two_card:hover .two_content .two {
     scale: 1;
     opacity: 1;
     }
-    .two_card:hover .two_content h2 
-    {
+    .two_card:hover .two_content h2 {
     opacity: 1;
     transform: translateY(0);
     }
 
     /* 範例三 */
-    #three-img
-    {
+    #three-img {
         border-radius: 40px;
         height: 400px;
     }
