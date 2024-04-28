@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <title>倒數統測計時器</title>
+        <style type="text/css">
+            .times{
+                text-align: left;
+                height: 40px;
+                font-size:20px;
+            }
+
+            .div1{
+                height: 200px;
+                width:245px;
+                float:left;
+                background: rgb(200, 200, 200);
+                border-radius:10%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size: 2em;
+            }
+
+            .nbsp1{
+                height: 200px;
+                width:10px;
+                float:left;
+                background: white;
+            }
+
+            .div2{
+                float:left;
+                height: 200px;
+                width:245px;
+                background: rgb(200, 200, 200);
+                border-radius:10%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size: 2em;
+            }
+
+            .box-4 .text{
+                text-align:center;
+            }
+            
+            .div3 {
+                float:left;
+                height: 40px;
+                width:245px;
+                background: rgb(200, 200, 200);
+                border-radius:10%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size: 1.5em;
+            }
+
+            .nbsp2 {
+                height: 40px;
+                width:25px;
+                float:left;
+                background: white;
+            }
+            
+            .div4 {
+                float:left;
+                height: 40px;
+                width:2px;
+                display:flex;
+                align-items:center;
+                font-size: 1.5em;
+            }
+        </style>
+    </head>
+    <body>
+        <center><div style="width:500px;height:500px">
+        <h1 style="text-align: left;">統測速報監測</h1>
+        <div id="countdown" class="times"></div>
+        <div class="div1">國文、數學、英文、專一、專二</div>
+        <div class="nbsp1"></div>
+        <div class="div2">預估級數<br><br>&#8734; 級</div>
+        <div style="width:100%;height:5px;float:left;">&nbsp;</div>
+        <div class="div3">實際抵達時間</div>
+        <div class="nbsp2"></div>
+        <div class="div4">2025/04/26</div>
+        </div></center>
+        <script>
+            // set target time
+            const targetDate = new Date('2025-04-27T00:00:00').getTime();
+            
+            // update time
+            function updateCountdown() {
+              // 當前日期
+              const now = new Date().getTime();
+              
+              // 剩餘時間
+              const distance = targetDate - now;
+              
+              // 算時間
+              const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+              
+              // 結果顯示
+              document.getElementById('countdown').innerHTML = `${days} 天 ${hours} 時 ${minutes} 分 ${seconds} 秒`;
+            }
+            
+            // 初始化
+            updateCountdown();
+            
+            // 每秒更新倒數
+            setInterval(updateCountdown, 1000);
+            </script>
+    </body>
+</html>
