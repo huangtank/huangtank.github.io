@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生物段考題庫</title>
+  <style>
+    #counter {
+        color: grey;
+        font-size: 1.2em; /* 調整按鈕、結果和計數器字體大小 */
+        margin-top: 10px; /* 調整按鈕、結果和計數器之間的間距 */
+      }
+      
+    * {
+        border-radius: 10px;
+    }
+    body {
+        background-color: rgb(45, 45, 45);
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    #question-container {
+        text-align: center;
+    }
+
+    h1 {
+        color: white;
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+    #wtf{
+      font-size: 5em;
+      background: linear-gradient(90deg, #00ffff, #ff00c3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #user-input {
+        background-color: rgb(35, 35, 35);
+        color: white;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    #rero-button,
+    #next-button,
+    #check-button {
+        background-color: rgb(35, 35, 35);
+        color: white;
+        font-size: 1.5em;
+        margin: 0 auto;
+    }
+
+
+    #result {
+        font-size: 1.5em;
+        margin-top: 10px;
+    }
+
+    #option1-text,
+    #option2-text,
+    #option3-text,
+    #option4-text{
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="question-container">
+    <button id="rero-button" onclick="location.href='https://www.youtube.com/shorts/ew1Yf0afTSs';">宥勝詳解</button>
+    <div id="counter">當前題數: <span id="current-question">0</span> 答對題目數: <span id="correct-count">0</span> 答錯題目數: <span id="wrong-count">0</span> 正確率: <span id="accuracy">0%</span></div>
+    <h1 id="chinese-word"></h1>
+    <div id="options">
+      <label>
+        <input type="radio" name="option" id="option1" value="option1">
+        <span id="option1-text"></span>
+      </label><br>
+      <label>
+        <input type="radio" name="option" id="option2" value="option2">
+        <span id="option2-text"></span>
+      </label><br>
+      <label>
+        <input type="radio" name="option" id="option3" value="option3">
+        <span id="option3-text"></span>
+      </label><br>
+      <label>
+        <input type="radio" name="option" id="option4" value="option4">
+        <span id="option4-text"></span>
+      </label><br>
+    </div>
+    <button id="check-button" onclick="checkAnswer()">檢查答案</button>
+    <h1 id="result"></h1>
+    <button id="next-button" style="display: none;" onclick="nextQuestion()">下一題</button>
+    <br><br><br><br><br>
+    <button id="rero-button" onclick="location.href='index.html';">返回</button>
+  </div>
+
+  <script>
+    const questions = [
+    {
+  "question": "下列何種激素於幼年時分泌過多會造成巨人症：分泌太少則造成侏儒症？",
+  "options": ["甲狀腺素", "生長激素", "胰島素", "升糖素"],
+  "correctAnswer": "生長激素"
+},
+{
+  "question": "為何男性罹思血友病的機率較女性高？",
+  "options": ["男性的Y 染色體影響凝血功能", "隱性突愛基因在X染色體上，男性只要有一個基因就會罹病", "男性荷爾蒙的影響，導致凝血功能下降", "女性荷爾蒙的分泌，使女性凝血功能較男性好"],
+  "correctAnswer": "隱性突愛基因在X染色體上，男性只要有一個基因就會罹病"
+},
+{
+  "question": "有關骨路肌的敘述，下列何者錯誤？",
+  "options": ["附著於骨骼上", "收縮不受大腦意識控制", "大多是成對活動", "又為隨意肌"],
+  "correctAnswer": "收縮不受大腦意識控制"
+},
+{
+  "question": "女性月經期間，所排出之組織剝落碎片與血液，主要來自何？",
+  "options": ["卵巢表面", "輸卵管壁", "子宮內膜", "陰道上皮細胞"],
+  "correctAnswer": "子宮內膜"
+},
+{
+  "question": "正常狀況下，人的卵細胞會在下列何處與精子結合？",
+  "options": ["卵巢", "輸卵管", "子宮", "陰道"],
+  "correctAnswer": "輸卵管"
+},
+{
+  "question": "下列何種激素是由卵巢中的濾泡細胞所分泌的？",
+  "options": ["動情素", "睪固酮", "濾泡成熟激素", "黃體成長激素"],
+  "correctAnswer": "動情素"
+},
+{
+  "question": "下列遺傳，何者是多基因遗傳？",
+  "options": ["碗豆花的顏色", "碗豆種子的顏色", "人類ABO血型", "人類的身高"],
+  "correctAnswer": "人類ABO血型"
+},
+{
+  "question": "卵子成熟後，經由激素的刺激與誘導，由濾泡排放至輸卵管。排卵多發生在月經週期的第幾天左右？",
+  "options": ["7", "14", "28", "21"],
+  "correctAnswer": "14"
+},
+{
+  "question": "某生發生跌落山谷，腰部脊椎完全折斷，而意識清醒。當醫務人員做檢查時，不會發現下列何種現象？",
+  "options": ["膝跳反射", "吞嚥反射", "呼吸反射", "瞳孔反射"],
+  "correctAnswer": "膝跳反射"
+},
+{
+  "question": "下列何種激素的作用，可促使細胞吸收利用葡萄糖？",
+  "options": ["胰島素", "昇糖素", "腎上腺素", "黃體素"],
+  "correctAnswer": "胰島素"
+},
+{
+  "question": "下列何種激素與調節血液中鈣、磷的濃度有關？",
+  "options": ["生長激素", "甲狀腺素", "腎上腺素", "副甲狀腺素"],
+  "correctAnswer": "副甲狀腺素"
+},
+{
+  "question": "下列何者符合孟德用的遺傳定律？",
+  "options": ["一條染色體上只有一個基因", "對偶基因位在同源染色體上", "控制不同性狀的基因位於同一對染色體", "同源染色體在細胞進行减數分裂時，相互分離"],
+  "correctAnswer": "控制不同性狀的基因位於同一對染色體"
+},
+{
+  "question": "下列何者不屬於 RNA 類型？",
+  "options": ["mRNA", "rRNA", "sRNA", "tRNA"],
+  "correctAnswer": "sRNA"
+},
+{
+  "question": "人類腦部的生命中樞，可以調節呼吸、心搏、吞嚥的是哪個部分？",
+  "options": ["小腦", "延腦", "橋腦", "中腦"],
+  "correctAnswer": "延腦"
+},
+{
+  "question": "產生配子時，所有的同源染色體會互相分開，各自進入不同的配子裡。上述現象稱為什麼？",
+  "options": ["獨立分配律", "結合律", "分離律", "機率"],
+  "correctAnswer": "分離律"
+},
+{
+  "question": "小翔患色盲，他的父母、祖父母、外祖父母皆無色盲，則小翔的色盲基因是由？",
+  "options": ["外祖父傳給母親", "祖母傳給父親", "祖父傳給母親", "外祖母傳給母親"],
+  "correctAnswer": "外祖母傳給母親"
+},
+{
+  "question": "有關人類卵巢的敘述，下列何者錯誤？",
+  "options": ["卵巢內有許多生殖細胞", "卵巢内有許多濾泡", "每個月有多個濾泡發育成熟並排卵", "卵巢可分泌動情素、黃體素"],
+  "correctAnswer": "每個月有多個濾泡發育成熟並排卵"
+},
+{
+  "question": "決定生物遗傳性狀的基因，位於細胞的哪一種構造上？",
+  "options": ["細胞膜", "細胞壁", "液泡", "染色體"],
+  "correctAnswer": "染色體"
+},
+{
+  "question": "下列關於神經元的敘述，哪一項正確？",
+  "options": ["可將訊息傳出細胞本體的為樹突", "神經纖維不可再生", "與動器相連的為蓮動神經元", "與受器相連的為聯絡神經元"],
+  "correctAnswer": "與動器相連的為蓮動神經元"
+},
+{
+  "question": "下列何者不是男人生殖系統的附性腺？",
+  "options": ["精腺（儲精囊）", "前列腺", "道球腺", "前庭腺"],
+  "correctAnswer": "前庭腺"
+},
+{
+  "question": "下列哪一項不屬於反射作用？",
+  "options": ["手觸電立刻缩回", "鼻黏膜受到刺激引起噴嚏", "眼睛遇強光瞳孔會缩小", "腳被釘子刺到後，用手撫摸刺痛處"],
+  "correctAnswer": "腳被釘子刺到後，用手撫摸刺痛處腺"
+},
+{
+"question": "聽神經應靨於哪一種神經元？",
+"options": ["聯絡神經元", "運動神經元", "中樞神經", "感覺神經元"],
+"correctAnswer": "感覺神經元"
+},
+{
+"question": "若下列何種激質缺少會導致糖尿病？",
+"options": ["升糖素", "甲狀腺素", "腎上腺素", "胰島素"],
+"correctAnswer": "胰島素"
+},
+{
+"question": "男性的生殖構造中，產生精子的地方分別為何？",
+"options": ["睪丸", "副睪", "前列腺", "陰莖"],
+"correctAnswer": "睪丸"
+},
+{
+"question": "小明的美人尖基因型為 Aa，則正常情況下他的精子",
+"options": ["會同時出現「A」和「a」", "配只可能出現「A」或「a」", "可能「A」和「a」兩個都沒有", "可能出現「B」"],
+"correctAnswer": "配只可能出現「A」或「a」"
+},
+{
+"question": "人類鑣刀形血球性貧血症患者，其成因為何？",
+"options": ["患者缺乏性染色體", "患者基因發生突變", "患者較常人多一個染色體", "患者較常人少一個染色體"],
+"correctAnswer": "患者基因發生突變"
+},
+{
+"question": "餓過頭，即不感飢餓，乃是由於何種激素分泌所致？",
+"options": ["甲狀腺紧", "胰島案", "升糖素", "腎上腺素"],
+"correctAnswer": "升糖素"
+},
+{
+"question": "有關周圍神經系統的敘述，下列何者錯誤？",
+"options": ["腦神經的神經末梢主要分布於頭部各處", "共有43 對神經", "脊神經的末梢分布於軀鱧和四肢", "皆不受大腦意識控制"],
+"correctAnswer": "皆不受大腦意識控制"
+},
+{
+"question": "黃色碗豆基因（YY）和綠色碗豆基因（yy）雜交後，所育出的第一子代基因型為",
+"options": ["YY", "yy", "Yy", "無法確定"],
+"correctAnswer": "Yy"
+},
+{
+"question": "生物細胞中遺傳的中心法則為下列何者？",
+"options": ["RNA->DNA->蛋白質", "DNA->蛋白質->RNA", "DNA->RNA->蛋白質", "RNA->蛋白質->DNA"],
+"correctAnswer": "DNA->RNA->蛋白質"
+},
+{
+"question": "人體的脊髓神經共有多少對？",
+"options": ["12對","23對", "31對", "45對"],
+"correctAnswer": "31對"
+},
+{
+"question": "下列何種構造負責製造精子？",
+"options": ["射精管", "細精管", "輸精管", "儲精囊"],
+"correctAnswer": "細精管"
+},
+{
+"question": "利用碗豆雜交實驗而提出遺傳法則，人稱還傳舉之父者為",
+"options": ["虎克", "孟德爾", "達爾文", "林奈"],
+"correctAnswer": "孟德爾"
+},
+{
+"question": "下列何組具拮抗作用？",
+"options": ["樹突和軸突", "感覺神經元和運動神經元", "二頭肌和三頭肌", "B淋巴球和T淋巴球"],
+"correctAnswer": "二頭肌和三頭肌"
+},
+{
+"question": "貓熊和臺灣黑熊之間 DNA 的不同主要是",
+"options": ["組成DNA 的化學分子不同", "有的為單股，有的是雙股", "組成染色體的蛋白質不同", "含氮鹼基的順序不同"],
+"correctAnswer": "含氮鹼基的順序不同"
+},
+{
+"question": "下列關於激素的敘述，何者錯誤？",
+"options": ["又稱荷爾蒙", "由血管運輸，又稱有管腺", "在體內的含量極微小", "只對目標細胞發生反應"],
+"correctAnswer": "由血管運輸，又稱有管腺"
+},
+{
+"question": "下列何者為組成 DNA 的基本單位？",
+"options": ["核苷酸", "胺基酸", "核酸", "脂肪酸"],
+"correctAnswer": "核苷酸"
+},
+{
+"question": "聽神經應靨於哪一種神經元？",
+"options": ["聯絡神經元", "運動神經元", "中樞神經", "感覺神經元"],
+"correctAnswer": "感覺神經元"
+},
+{
+  "question": "有關染色體的敘述，哪一項正確？",
+  "options": [
+    "黑人和白人的染色體數目不同",
+    "染色體的數目=基因數目",
+    "對偶基因分別位於同源染色體相對位置上",
+    "DNA 包含染色體和蛋白質"
+  ],
+  "correctAnswer": "對偶基因分別位於同源染色體相對位置上"
+},
+{
+  "question": "下列何種內分泌腺機能亢進，會使患者眼球突出？",
+  "options": ["甲狀腺", "副甲狀腺", "胰島", "胸腺"],
+  "correctAnswer": "甲狀腺"
+},
+{
+  "question": "假設人的酒窩性狀是由一對基因所控制，無酒窩是隱性。小林原本是無酒窩，因為受傷變成有酒窩，和天生是有酒窩的小李結婚，生下一個無酒窩的小孩。在不考慮突變的情況下，下一胎是有酒窩的機率是多少？",
+  "options": ["1", "1/3", "3/4", "1/2"],
+  "correctAnswer": "1/2"
+},
+{
+  "question": "小育是一位健康的成年女性，則其產生的卵子染色體可能為何？",
+  "options": ["44+XX", "44+XY", "22+X", "22+Y"],
+  "correctAnswer": "22+X"
+},
+{
+  "question": "下列何者為交感神經興奮時會引起的作用？",
+  "options": ["心跳加快", "腸胃運動變快", "瞳孔縮小", "支氣管收縮"],
+  "correctAnswer": "心跳加快"
+},
+{
+  "question": "下列有關基因的敘述，何者錯誤？",
+  "options": [
+    "基因位於染色體上",
+    "人的基因是由 DNA 所構成",
+    "一條染色體上通常只有一個基因",
+    "通常一種性狀由成對的基因控制"
+  ],
+  "correctAnswer": "一條染色體上通常只有一個基因"
+},
+{
+  "question": "女性在懷孕後、生產前，會有哪一種現象發生？",
+  "options": ["血中黃體激素濃度降低", "每個月仍有濾泡發育成熟", "沒有月經週期", "開始分泌乳"],
+  "correctAnswer": "沒有月經週期"
+},
+{
+  "question": "女性的月經週期平均約28天，但也有些人的週期短則20天或長達40天。會有此種變動是因下列哪一階段的長短變動較大所引起？",
+  "options": ["行經期", "排卵期", "濾泡期", "黃體期"],
+  "correctAnswer": "濾泡期"
+},
+{
+  "question": "華生與克立克提出推論的 DNA 構造中兩股核苷酸鏈是以何種分子結構相接？",
+  "options": ["去氧核糖", "含氨鹼基", "磷酸", "核糖"],
+  "correctAnswer": "含氨鹼基"
+},
+{
+  "question": "下列有關神經元的敘述，何者不正確？",
+  "options": [
+    "神經元是神經系統的構造單位",
+    "神經元就是神經細胞",
+    "神經元的神經纖維負責神經元的生長與代謝",
+    "神經元的細胞核位於細胞體內"
+  ],
+  "correctAnswer": "神經元的神經纖維負責神經元的生長與代謝"
+},
+{
+  "question": "下列何種激素與血糖或壓力的調節無關？",
+  "options": ["腎上腺素", "副甲狀腺素", "胰島素", "升糖素"],
+  "correctAnswer": "副甲狀腺素"
+},
+{
+  "question": "人體對於疾病的抵抗防線有：（甲）吞噬作用；（乙）專一性免疫作用；（丙）發炎反應；（丁）皮膜屏障，其先後順序為何？",
+  "options": ["丁甲丙乙", "丁甲乙丙", "甲丁丙乙", "甲丁乙丙"],
+  "correctAnswer": "甲丁乙丙"
+}
+    ];
+
+    let currentQuestion = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let currentIndex = getRandomIndex();
+
+    function getRandomIndex() {
+      return Math.floor(Math.random() * questions.length);
+    }
+
+    function loadQuestion() {
+      currentQuestion++;
+      document.getElementById('current-question').textContent = currentQuestion;
+      const questionText = questions[currentIndex].question;
+      const options = questions[currentIndex].options;
+      document.getElementById('chinese-word').textContent = questionText;
+
+      document.getElementById('option1-text').textContent = options[0];
+      document.getElementById('option2-text').textContent = options[1];
+      document.getElementById('option3-text').textContent = options[2];
+      document.getElementById('option4-text').textContent = options[3];
+    }
+
+    function checkAnswer() {
+      const options = document.getElementsByName('option');
+      let selectedOption = '';
+      for (const option of options) {
+        if (option.checked) {
+          selectedOption = option.value;
+          break;
+        }
+      }
+
+      const correctAnswer = questions[currentIndex].correctAnswer;
+
+      const resultElement = document.getElementById('result');
+      const nextButton = document.getElementById('next-button');
+      const checkButton = document.getElementById('check-button');
+
+      if (selectedOption === '') {
+        resultElement.textContent = '請選擇一個選項！';
+        return;
+      }
+
+      if (selectedOption === 'option1' && questions[currentIndex].options[0] === correctAnswer ||
+          selectedOption === 'option2' && questions[currentIndex].options[1] === correctAnswer ||
+          selectedOption === 'option3' && questions[currentIndex].options[2] === correctAnswer ||
+          selectedOption === 'option4' && questions[currentIndex].options[3] === correctAnswer) {
+        resultElement.textContent = '正確！';
+        correctCount++;
+        document.getElementById('correct-count').textContent = correctCount;
+      } else {
+        resultElement.textContent = '錯誤，正確答案是 : ' + correctAnswer;
+        wrongCount++;
+        document.getElementById('wrong-count').textContent = wrongCount;
+      }
+
+      nextButton.style.display = 'block';
+      checkButton.style.display = 'none';
+    }
+
+    function nextQuestion() {
+      const nextButton = document.getElementById('next-button');
+      const resultElement = document.getElementById('result');
+      const checkButton = document.getElementById('check-button');
+
+      resultElement.textContent = '';
+      nextButton.style.display = 'none';
+      checkButton.style.display = 'block';
+
+      currentIndex = getRandomIndex();
+      loadQuestion();
+      document.getElementById('accuracy').textContent = ((correctCount / (currentQuestion - 1)) * 100).toFixed(1) + "%";
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
