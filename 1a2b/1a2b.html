@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1A2B 小遊戲</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="title">
+        <h1>1A2B 小遊戲</h1>
+        </div>
+        <div id="game">
+            <input type="text" id="guessInput" placeholder="輸入你的答案" maxlength="4">
+            <button class="glow-on-hover" onclick="makeGuess()">猜</button>
+            <button class="glow-on-hover" onclick="restartGame()">重製答案</button>
+            <div id="history"></div>
+        </div>
+        <div id="stats">
+            <p>總瀏覽數: <span id="visitorCount">0</span></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
