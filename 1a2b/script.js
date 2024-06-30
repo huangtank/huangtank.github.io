@@ -28,8 +28,10 @@ function makeGuess() {
     updateHistory();
     
     if (a === 4) {
-        alert('恭喜，你猜到了，總共花了', time, '次');
+        alert(`恭喜，你猜到了，總共花了 ${time} 次`);
         restartGame();
+    }else {
+        time += 1;
     }
 }
 
