@@ -1,7 +1,7 @@
 let secretNumber = generateSecretNumber();
 let history = [];
 let visitorCount = localStorage.getItem('visitorCount') || 0;
-let time = 0;
+let time = 1;
 
 document.getElementById('visitorCount').innerText = visitorCount;
 
