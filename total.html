@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¬q¦Ò­^¤åÃD®w</title>
+  <title>æ®µè€ƒè‹±æ–‡é¡Œåº«</title>
   <style>
     #counter {
         color: grey;
-        font-size: 1.2em; /* ½Õ¾ã«ö¶s¡Bµ²ªG©M­p¼Æ¾¹¦rÅé¤j¤p */
-        margin-top: 10px; /* ½Õ¾ã«ö¶s¡Bµ²ªG©M­p¼Æ¾¹¤§¶¡ªº¶¡¶Z */
+        font-size: 1.2em; /* èª¿æ•´æŒ‰éˆ•ã€çµæœå’Œè¨ˆæ•¸å™¨å­—é«”å¤§å° */
+        margin-top: 10px; /* èª¿æ•´æŒ‰éˆ•ã€çµæœå’Œè¨ˆæ•¸å™¨ä¹‹é–“çš„é–“è· */
       }
       
     * {
@@ -66,2531 +66,2531 @@
 <body>
     
   <div id="question-container">
-    <button id="rero-button" onclick="location.href='https://www.youtube.com/shorts/ew1Yf0afTSs';">«É³Ó¸Ô¸Ñ</button>
-    <div id="counter">·í«eÃD¼Æ: <span id="current-question">0</span> µª¹ïÃD¥Ø¼Æ: <span id="correct-count">0</span> µª¿ùÃD¥Ø¼Æ: <span id="wrong-count">0</span> ¥¿½T²v: <span id="accuracy">0%</span></div>
+    <button id="rero-button" onclick="location.href='https://www.youtube.com/shorts/ew1Yf0afTSs';">å®¥å‹è©³è§£</button>
+    <div id="counter">ç•¶å‰é¡Œæ•¸: <span id="current-question">0</span> ç­”å°é¡Œç›®æ•¸: <span id="correct-count">0</span> ç­”éŒ¯é¡Œç›®æ•¸: <span id="wrong-count">0</span> æ­£ç¢ºç‡: <span id="accuracy">0%</span></div>
     <h1 id="chinese-word"></h1>
-    <input type="text" id="user-input" placeholder="½Ğ¿é¤Jµª®×" onkeydown="checkOnEnter(event)">
+    <input type="text" id="user-input" placeholder="è«‹è¼¸å…¥ç­”æ¡ˆ" onkeydown="checkOnEnter(event)">
     <br>
-    <button id="check-button" onclick="checkAnswer()">ÀË¬dµª®×</button>
+    <button id="check-button" onclick="checkAnswer()">æª¢æŸ¥ç­”æ¡ˆ</button>
     <h1 id="result"></h1>
-    <button id="next-button" style="display: none;" onclick="nextQuestion()">¤U¤@ÃD</button>
+    <button id="next-button" style="display: none;" onclick="nextQuestion()">ä¸‹ä¸€é¡Œ</button>
     <br><br><br><br><br>
-    <button id="rero-button" onclick="location.href='index.html';">ªğ¦^</button>
+    <button id="rero-button" onclick="location.href='index.html';">è¿”å›</button>
   </div>
   <script>
-    // ª½±µ±N JSON ¸ê®Æ´O¤J¨ì JavaScript ¤¤
+    // ç›´æ¥å°‡ JSON è³‡æ–™åµŒå…¥åˆ° JavaScript ä¸­
     const jsonData = [
 {
 "English": "incredible",
-"Chinese": "Åå¤Hªº"
+"Chinese": "é©šäººçš„"
 },
 {
 "English": "natural",
-"Chinese": "¦ÛµMªº"
+"Chinese": "è‡ªç„¶çš„"
 },
 {
 "English": "curious",
-"Chinese": "µ}©_¥j©Çªº"
+"Chinese": "ç¨€å¥‡å¤æ€ªçš„"
 },
 {
 "English": "nevertheless",
-"Chinese": "µM¦Ó"
+"Chinese": "ç„¶è€Œ"
 },
 {
 "English": "impressive",
-"Chinese": "¥O¤H¦L¶H²`¨èªº"
+"Chinese": "ä»¤äººå°è±¡æ·±åˆ»çš„"
 },
 {
 "English": "distinct",
-"Chinese": "¤£¦Pªº"
+"Chinese": "ä¸åŒçš„"
 },
 {
 "English": "phenomenon",
-"Chinese": "²{¶H"
+"Chinese": "ç¾è±¡"
 },
 {
 "English": "scientific",
-"Chinese": "¬ì¾Ç"
+"Chinese": "ç§‘å­¸"
 },
 {
 "English": "puzzle",
-"Chinese": "Á¼ÃD"
+"Chinese": "è¬é¡Œ"
 },
 {
 "English": "perfect",
-"Chinese": "§¹¬üªº"
+"Chinese": "å®Œç¾çš„"
 },
 {
 "English": "therefore",
-"Chinese": "©Ò¥H"
+"Chinese": "æ‰€ä»¥"
 },
 {
 "English": "lay",
-"Chinese": "¤U³J"
+"Chinese": "ä¸‹è›‹"
 },
 {
 "English": "category",
-"Chinese": "Ãş§O"
+"Chinese": "é¡åˆ¥"
 },
 {
 "English": "worm",
-"Chinese": "ÂÎ"
+"Chinese": "èŸ²"
 },
 {
 "English": "jewelry",
-"Chinese": "¯]Ä_"
+"Chinese": "ç å¯¶"
 },
 {
 "English": "designer",
-"Chinese": "³]­p®v"
+"Chinese": "è¨­è¨ˆå¸«"
 },
 {
 "English": "cell",
-"Chinese": "²Ó­M"
+"Chinese": "ç´°èƒ"
 },
 {
 "English": "wisdom",
-"Chinese": "´¼¼z"
+"Chinese": "æ™ºæ…§"
 },
 {
 "English": "tissue",
-"Chinese": "²ÕÂ´"
+"Chinese": "çµ„ç¹”"
 },
 {
 "English": "extreme",
-"Chinese": "·¥ºİªº"
+"Chinese": "æ¥µç«¯çš„"
 },
 {
 "English": "carry out",
-"Chinese": "¶i¦æ"
+"Chinese": "é€²è¡Œ"
 },
 {
 "English": "goal",
-"Chinese": "¥Ø¼Ğ"
+"Chinese": "ç›®æ¨™"
 },
 {
 "English": "involve",
-"Chinese": "¨Ï°Ñ»P"
+"Chinese": "ä½¿åƒèˆ‡"
 },
 {
 "English": "discussion",
-"Chinese": "°Q½×"
+"Chinese": "è¨è«–"
 },
 {
 "English": "engineering",
-"Chinese": "¤uµ{"
+"Chinese": "å·¥ç¨‹"
 },
 {
 "English": "odd",
-"Chinese": "©_©Çªº"
+"Chinese": "å¥‡æ€ªçš„"
 },
 {
 "English": "sting",
-"Chinese": "¨ëµh·P"
+"Chinese": "åˆºç—›æ„Ÿ"
 },
 {
 "English": "contray",
-"Chinese": "¬Û¤Ïªº"
+"Chinese": "ç›¸åçš„"
 },
 {
 "English": "danger",
-"Chinese": "¦MÀI"
+"Chinese": "å±éšª"
 },
 {
 "English": "pose",
-"Chinese": "³y¦¨"
+"Chinese": "é€ æˆ"
 },
 {
 "English": "bacteria",
-"Chinese": "²Óµß"
+"Chinese": "ç´°èŒ"
 },
 {
 "English": "virus",
-"Chinese": "¯f¬r"
+"Chinese": "ç—…æ¯’"
 },
 {
 "English": "product",
-"Chinese": "²£«~"
+"Chinese": "ç”¢å“"
 },
 {
 "English": "harsh",
-"Chinese": "¨ë»óªº"
+"Chinese": "åˆºé¼»çš„"
 },
 {
 "English": "chemical",
-"Chinese": "¤Æ¾Çª«½è"
+"Chinese": "åŒ–å­¸ç‰©è³ª"
 },
 {
 "English": "cause",
-"Chinese": "³y¦¨"
+"Chinese": "é€ æˆ"
 },
 {
 "English": "household",
-"Chinese": "®a¥Îªº"
+"Chinese": "å®¶ç”¨çš„"
 },
 {
 "English": "solution",
-"Chinese": "¸Ñ¨M¿ìªk"
+"Chinese": "è§£æ±ºè¾¦æ³•"
 },
 {
 "English": "plenty",
-"Chinese": "³\¦h"
+"Chinese": "è¨±å¤š"
 },
 {
 "English": "produce",
-"Chinese": "»s³y"
+"Chinese": "è£½é€ "
 },
 {
 "English": "mild",
-"Chinese": "¨ı²Hªº"
+"Chinese": "å‘³æ·¡çš„"
 },
 {
 "English": "defensive",
-"Chinese": "«O½Ãªº"
+"Chinese": "ä¿è¡›çš„"
 },
 {
 "English": "prevention",
-"Chinese": "¹w¨¾"
+"Chinese": "é é˜²"
 },
 {
 "English": "electric",
-"Chinese": "¹qªº"
+"Chinese": "é›»çš„"
 },
 {
 "English": "preserve",
-"Chinese": "«O¦s"
+"Chinese": "ä¿å­˜"
 },
 {
 "English": "frozen",
-"Chinese": "µ²¦Bªº"
+"Chinese": "çµå†°çš„"
 },
 {
 "English": "species",
-"Chinese": "ª«ºØ"
+"Chinese": "ç‰©ç¨®"
 },
 {
 "English": "cricket",
-"Chinese": "ÁµÁ¬"
+"Chinese": "èŸ‹èŸ€"
 },
 {
 "English": "minus",
-"Chinese": "­tªº"
+"Chinese": "è² çš„"
 },
 {
 "English": "degree",
-"Chinese": "«×"
+"Chinese": "åº¦"
 },
 {
 "English": "safety",
-"Chinese": "¦w¥ş"
+"Chinese": "å®‰å…¨"
 },
 {
 "English": "rate",
-"Chinese": "³t²v"
+"Chinese": "é€Ÿç‡"
 },
 {
 "English": "loss",
-"Chinese": "³à¥¢"
+"Chinese": "å–ªå¤±"
 },
 {
 "English": "website",
-"Chinese": "ºô¯¸"
+"Chinese": "ç¶²ç«™"
 },
 {
 "English": "percent",
-"Chinese": "¦Ê¤À¤§¤@"
+"Chinese": "ç™¾åˆ†ä¹‹ä¸€"
 },
 {
 "English": "collection",
-"Chinese": "§@«~¶°"
+"Chinese": "ä½œå“é›†"
 },
 {
 "English": "die out",
-"Chinese": "·Àµ´"
+"Chinese": "æ»…çµ•"
 },
 {
 "English": "tame",
-"Chinese": "¹¥¤Æ"
+"Chinese": "é¦´åŒ–"
 },
 {
 "English": "previously",
-"Chinese": "¥ı«e¦a"
+"Chinese": "å…ˆå‰åœ°"
 },
 {
 "English": "grave",
-"Chinese": "¼X¹Ó"
+"Chinese": "å¢³å¢“"
 },
 {
 "English": "bury",
-"Chinese": "®I¸®"
+"Chinese": "åŸ‹è‘¬"
 },
 {
 "English": "journal",
-"Chinese": "Âø»x"
+"Chinese": "é›œèªŒ"
 },
 {
 "English": "suggest",
-"Chinese": "Åã¥Ü"
+"Chinese": "é¡¯ç¤º"
 },
 {
 "English": "relationship",
-"Chinese": "Ãö«Y"
+"Chinese": "é—œä¿‚"
 },
 {
 "English": "researcher",
-"Chinese": "¬ã¨s¤H­û"
+"Chinese": "ç ”ç©¶äººå“¡"
 },
 {
 "English": "suspect",
-"Chinese": "²q·Q"
+"Chinese": "çŒœæƒ³"
 },
 {
 "English": "discovery",
-"Chinese": "µo²{"
+"Chinese": "ç™¼ç¾"
 },
 {
 "English": "confirm",
-"Chinese": "½T»{"
+"Chinese": "ç¢ºèª"
 },
 {
 "English": "arise",
-"Chinese": "µo¥Í"
+"Chinese": "ç™¼ç”Ÿ"
 },
 {
 "English": "attract",
-"Chinese": "§l¤Ş"
+"Chinese": "å¸å¼•"
 },
 {
 "English": "rapidly",
-"Chinese": "¨³³t¦a"
+"Chinese": "è¿…é€Ÿåœ°"
 },
 {
 "English": "reduce",
-"Chinese": "´î¤Ö"
+"Chinese": "æ¸›å°‘"
 },
 {
 "English": "fake",
-"Chinese": "°²ªº"
+"Chinese": "å‡çš„"
 },
 {
 "English": "mislead",
-"Chinese": "»~¾É"
+"Chinese": "èª¤å°"
 },
 {
 "English": "customer",
-"Chinese": "ÅU«È"
+"Chinese": "é¡§å®¢"
 },
 {
 "English": "exception",
-"Chinese": "¨Ò¥~"
+"Chinese": "ä¾‹å¤–"
 },
 {
 "English": "achieve",
-"Chinese": "¹ê²{"
+"Chinese": "å¯¦ç¾"
 },
 {
 "English": "quality",
-"Chinese": "«~½è"
+"Chinese": "å“è³ª"
 },
 {
 "English": "industry",
-"Chinese": "¦æ·~"
+"Chinese": "è¡Œæ¥­"
 },
 {
 "English": "requirement",
-"Chinese": "¥²­n±ø¥ó"
+"Chinese": "å¿…è¦æ¢ä»¶"
 },
 {
 "English": "quantity",
-"Chinese": "¼Æ¶q"
+"Chinese": "æ•¸é‡"
 },
 {
 "English": "rather than",
-"Chinese": "»P¨ä"
+"Chinese": "èˆ‡å…¶"
 },
 {
 "English": "substance",
-"Chinese": "ª«½è"
+"Chinese": "ç‰©è³ª"
 },
 {
 "English": "link",
-"Chinese": "¨Ï¦³ÃöÁp"
+"Chinese": "ä½¿æœ‰é—œè¯"
 },
 {
 "English": "cancer",
-"Chinese": "Àù¯g"
+"Chinese": "ç™Œç—‡"
 },
 {
 "English": "metal",
-"Chinese": "ª÷Äİ"
+"Chinese": "é‡‘å±¬"
 },
 {
 "English": "exhibite",
-"Chinese": "Åã¥X"
+"Chinese": "é¡¯å‡º"
 },
 {
 "English": "visible",
-"Chinese": "¬İ±o¨£ªº"
+"Chinese": "çœ‹å¾—è¦‹çš„"
 },
 {
 "English": "medical",
-"Chinese": "Âå¾Çªº"
+"Chinese": "é†«å­¸çš„"
 },
 {
 "English": "condition",
-"Chinese": "¯e¯f"
+"Chinese": "ç–¾ç—…"
 },
 {
 "English": "disease",
-"Chinese": "¯e¯f"
+"Chinese": "ç–¾ç—…"
 },
 {
 "English": "suspicious",
-"Chinese": "¥iºÃªº"
+"Chinese": "å¯ç–‘çš„"
 },
 {
 "English": "consider",
-"Chinese": "¦Ò¼{"
+"Chinese": "è€ƒæ…®"
 },
 {
 "English": "stranger",
-"Chinese": "­¯¥Í¤H"
+"Chinese": "é™Œç”Ÿäºº"
 },
 {
 "English": "parade",
-"Chinese": "¹C¦æ"
+"Chinese": "éŠè¡Œ"
 },
 {
 "English": "cheerfully",
-"Chinese": "¿³°ª±m¯Pªº"
+"Chinese": "èˆˆé«˜å½©çƒˆçš„"
 },
 {
 "English": "splash",
-"Chinese": "¨ÏÂq¼â"
+"Chinese": "ä½¿æ¿ºæ½‘"
 },
 {
 "English": "good-natured",
-"Chinese": "¤Íµ½ªº"
+"Chinese": "å‹å–„çš„"
 },
 {
 "English": "spare",
-"Chinese": "¨Ï§K¾D¶Ë®`"
+"Chinese": "ä½¿å…é­å‚·å®³"
 },
 {
 "English": "respect",
-"Chinese": "´L·q"
+"Chinese": "å°Šæ•¬"
 },
 {
 "English": "pour",
-"Chinese": "¶Éª`"
+"Chinese": "å‚¾æ³¨"
 },
 {
 "English": "tourist",
-"Chinese": "Æ[¥ú«È"
+"Chinese": "è§€å…‰å®¢"
 },
 {
 "English": "favorite",
-"Chinese": "³Ì¤¤·Nªº"
+"Chinese": "æœ€ä¸­æ„çš„"
 },
 {
 "English": "target",
-"Chinese": "¥Ø¼Ğ"
+"Chinese": "ç›®æ¨™"
 },
 {
 "English": "community",
-"Chinese": "ªÀ¸s"
+"Chinese": "ç¤¾ç¾¤"
 },
 {
 "English": "efficiently",
-"Chinese": "¦³®Ä²v¦a"
+"Chinese": "æœ‰æ•ˆç‡åœ°"
 },
 {
 "English": "objective",
-"Chinese": "¥Ø¼Ğ"
+"Chinese": "ç›®æ¨™"
 },
 {
 "English": "delay",
-"Chinese": "©µ´Á"
+"Chinese": "å»¶æœŸ"
 },
 {
 "English": "buzz",
-"Chinese": "µo¥X³sÄòªº»´·LÁnÅT"
+"Chinese": "ç™¼å‡ºé€£çºŒçš„è¼•å¾®è²éŸ¿"
 },
 {
 "English": "period",
-"Chinese": "¤@¬q®É¶¡"
+"Chinese": "ä¸€æ®µæ™‚é–“"
 },
 {
 "English": "extended",
-"Chinese": "©µªøªº"
+"Chinese": "å»¶é•·çš„"
 },
 {
 "English": "improve",
-"Chinese": "§ïµ½"
+"Chinese": "æ”¹å–„"
 },
 {
 "English": "system",
-"Chinese": "¨î«×"
+"Chinese": "åˆ¶åº¦"
 },
 {
 "English": "track",
-"Chinese": "°lÂÜ"
+"Chinese": "è¿½è¹¤"
 },
 {
 "English": "evaluate",
-"Chinese": "µû¦ô"
+"Chinese": "è©•ä¼°"
 },
 {
 "English": "progress",
-"Chinese": "¶i¨B"
+"Chinese": "é€²æ­¥"
 },
 {
 "English": "regulate",
-"Chinese": "³W½d"
+"Chinese": "è¦ç¯„"
 },
 {
 "English": "concentration",
-"Chinese": "¶°¤¤"
+"Chinese": "é›†ä¸­"
 },
 {
 "English": "pile",
-"Chinese": "°ï¿n"
+"Chinese": "å †ç©"
 },
 {
 "English": "appetite",
-"Chinese": "­G¤f"
+"Chinese": "èƒƒå£"
 },
 {
 "English": "arrival",
-"Chinese": "¨ì¨Ó"
+"Chinese": "åˆ°ä¾†"
 },
 {
 "English": "century",
-"Chinese": "¤@¥@¬ö"
+"Chinese": "ä¸€ä¸–ç´€"
 },
 {
 "English": "eventually",
-"Chinese": "²×©ó"
+"Chinese": "çµ‚æ–¼"
 },
 {
 "English": "release",
-"Chinese": "µo¦æ"
+"Chinese": "ç™¼è¡Œ"
 },
 {
 "English": "mobile",
-"Chinese": "¦æ°Êªº"
+"Chinese": "è¡Œå‹•çš„"
 },
 {
 "English": "attractive",
-"Chinese": "°g¤Hªº"
+"Chinese": "è¿·äººçš„"
 },
 {
 "English": "foldable",
-"Chinese": "¥i§éÅ|ªº"
+"Chinese": "å¯æŠ˜ç–Šçš„"
 },
 {
 "English": "model",
-"Chinese": "¾÷«¬"
+"Chinese": "æ©Ÿå‹"
 },
 {
 "English": "portable",
-"Chinese": "¥iÄâ±aªº"
+"Chinese": "å¯æ”œå¸¶çš„"
 },
 {
 "English": "mass",
-"Chinese": "¤j¶qªº"
+"Chinese": "å¤§é‡çš„"
 },
 {
 "English": "production",
-"Chinese": "¥Í²£¡]¶q¡^"
+"Chinese": "ç”Ÿç”¢ï¼ˆé‡ï¼‰"
 },
 {
 "English": "digital",
-"Chinese": "¼Æ¦ìªº"
+"Chinese": "æ•¸ä½çš„"
 },
 {
 "English": "display",
-"Chinese": "Åã¥Ü¾¹"
+"Chinese": "é¡¯ç¤ºå™¨"
 },
 {
 "English": "development",
-"Chinese": "µo®i"
+"Chinese": "ç™¼å±•"
 },
 {
 "English": "screen",
-"Chinese": "¿Ã¹õ"
+"Chinese": "è¢å¹•"
 },
 {
 "English": "marriage",
-"Chinese": "µ²¦XÅé"
+"Chinese": "çµåˆé«”"
 },
 {
 "English": "revolutionary",
-"Chinese": "­²©R©Êªº"
+"Chinese": "é©å‘½æ€§çš„"
 },
 {
 "English": "era",
-"Chinese": "¬ö¤¸"
+"Chinese": "ç´€å…ƒ"
 },
 {
 "English": "trechnology",
-"Chinese": "¬ì§Ş"
+"Chinese": "ç§‘æŠ€"
 },
 {
 "English": "launch",
-"Chinese": "¤W¥«"
+"Chinese": "ä¸Šå¸‚"
 },
 {
 "English": "comfort",
-"Chinese": "¦w¼¢"
+"Chinese": "å®‰æ…°"
 },
 {
 "English": "anxious",
-"Chinese": "µJ¼{ªº"
+"Chinese": "ç„¦æ…®çš„"
 },
 {
 "English": "fit",
-"Chinese": "°·±dªº"
+"Chinese": "å¥åº·çš„"
 },
 {
 "English": "claim",
-"Chinese": "«ÅºÙ"
+"Chinese": "å®£ç¨±"
 },
 {
 "English": "success",
-"Chinese": "¦¨¥\"
+"Chinese": "æˆåŠŸ"
 },
 {
 "English": "weight",
-"Chinese": "Åé­«"
+"Chinese": "é«”é‡"
 },
 {
 "English": "truth",
-"Chinese": "¹ê±¡"
+"Chinese": "å¯¦æƒ…"
 },
 {
 "English": false,
-"Chinese": "µê°²ªº"
+"Chinese": "è™›å‡çš„"
 },
 {
 "English": "belief",
-"Chinese": "«H©À"
+"Chinese": "ä¿¡å¿µ"
 },
 {
 "English": "energy",
-"Chinese": "ºë¤O"
+"Chinese": "ç²¾åŠ›"
 },
 {
 "English": "speed",
-"Chinese": "¥[³t"
+"Chinese": "åŠ é€Ÿ"
 },
 {
 "English": "effect",
-"Chinese": "§@¥Î"
+"Chinese": "ä½œç”¨"
 },
 {
 "English": "suggestion",
-"Chinese": "«ØÄ³"
+"Chinese": "å»ºè­°"
 },
 {
 "English": "unrealistic",
-"Chinese": "¤£¤Á¹ê»Úªº"
+"Chinese": "ä¸åˆ‡å¯¦éš›çš„"
 },
 {
 "English": "accurate",
-"Chinese": "¥¿½Tªº"
+"Chinese": "æ­£ç¢ºçš„"
 },
 {
 "English": "sensible",
-"Chinese": "²z´¼ªº"
+"Chinese": "ç†æ™ºçš„"
 },
 {
 "English": "fiction",
-"Chinese": "µêºc¨Æ¹ê"
+"Chinese": "è™›æ§‹äº‹å¯¦"
 },
 {
 "English": "disguise",
-"Chinese": "°²§ê"
+"Chinese": "å‡æ‰®"
 },
 {
 "English": "wonder",
-"Chinese": "·Qª¾¹D"
+"Chinese": "æƒ³çŸ¥é“"
 },
 {
 "English": "tropical",
-"Chinese": "¼ö±aªº"
+"Chinese": "ç†±å¸¶çš„"
 },
 {
 "English": "tend",
-"Chinese": "¶É¦V"
+"Chinese": "å‚¾å‘"
 },
 {
 "English": "theory",
-"Chinese": "²z½×"
+"Chinese": "ç†è«–"
 },
 {
 "English": "sweat",
-"Chinese": "¥X¦½"
+"Chinese": "å‡ºæ±—"
 },
 {
 "English": "focus",
-"Chinese": "¶°¤¤"
+"Chinese": "é›†ä¸­"
 },
 {
 "English": "actually",
-"Chinese": "¨Æ¹ê¤W"
+"Chinese": "äº‹å¯¦ä¸Š"
 },
 {
 "English": "variety",
-"Chinese": "¦U¦¡¦U¼Ë"
+"Chinese": "å„å¼å„æ¨£"
 },
 {
 "English": "available",
-"Chinese": "¥i§Q¥Îªº"
+"Chinese": "å¯åˆ©ç”¨çš„"
 },
 {
 "English": "grain",
-"Chinese": "½\ª«"
+"Chinese": "ç©€ç‰©"
 },
 {
 "English": "source",
-"Chinese": "¨Ó·½"
+"Chinese": "ä¾†æº"
 },
 {
 "English": "range",
-"Chinese": "½d³ò"
+"Chinese": "ç¯„åœ"
 },
 {
 "English": "mixture",
-"Chinese": "²V¦X"
+"Chinese": "æ··åˆ"
 },
 {
 "English": "besides",
-"Chinese": "¦¹¥~"
+"Chinese": "æ­¤å¤–"
 },
 {
 "English": "deny",
-"Chinese": "§_»{"
+"Chinese": "å¦èª"
 },
 {
 "English": "dare",
-"Chinese": "¦V...¬D¾Ô"
+"Chinese": "å‘...æŒ‘æˆ°"
 },
 {
 "English": "landmark",
-"Chinese": "¨½µ{¸O"
+"Chinese": "é‡Œç¨‹ç¢‘"
 },
 {
 "English": "average",
-"Chinese": "¥­§¡¼Æ"
+"Chinese": "å¹³å‡æ•¸"
 },
 {
 "English": "maximum",
-"Chinese": "³Ì¤j­È"
+"Chinese": "æœ€å¤§å€¼"
 },
 {
 "English": "per",
-"Chinese": "¨C"
+"Chinese": "æ¯"
 },
 {
 "English": "frequency",
-"Chinese": "ÀW²v"
+"Chinese": "é »ç‡"
 },
 {
 "English": "assume",
-"Chinese": "°²©w"
+"Chinese": "å‡å®š"
 },
 {
 "English": "infection",
-"Chinese": "·P¬V"
+"Chinese": "æ„ŸæŸ“"
 },
 {
 "English": "continuous",
-"Chinese": "³sÄò¤£Â_ªº"
+"Chinese": "é€£çºŒä¸æ–·çš„"
 },
 {
 "English": "moist",
-"Chinese": "Àã¼íªº"
+"Chinese": "æ¿•æ½¤çš„"
 },
 {
 "English": "rage",
-"Chinese": "²±«ã"
+"Chinese": "ç››æ€’"
 },
 {
 "English": "grief",
-"Chinese": "´d¶Ë"
+"Chinese": "æ‚²å‚·"
 },
 {
 "English": "decrease",
-"Chinese": "´î¤Ö"
+"Chinese": "æ¸›å°‘"
 },
 {
 "English": "harmful",
-"Chinese": "¦³®`ªº"
+"Chinese": "æœ‰å®³çš„"
 },
 {
 "English": "float",
-"Chinese": "º}"
+"Chinese": "æ¼‚"
 },
 {
 "English": "feel like",
-"Chinese": "·Q­n"
+"Chinese": "æƒ³è¦"
 },
 {
 "English": "weep",
-"Chinese": "­úª_"
+"Chinese": "å“­æ³£"
 },
 {
 "English": "cartoon",
-"Chinese": "º©µe"
+"Chinese": "æ¼«ç•«"
 },
 {
 "English": "character",
-"Chinese": "¨¤¦â"
+"Chinese": "è§’è‰²"
 },
 {
 "English": "comic",
-"Chinese": "º©µe"
+"Chinese": "æ¼«ç•«"
 },
 {
 "English": "strip",
-"Chinese": "±ø"
+"Chinese": "æ¢"
 },
 {
 "English": "spark",
-"Chinese": "¿E°_"
+"Chinese": "æ¿€èµ·"
 },
 {
 "English": "intense",
-"Chinese": "¿E¯Pªº"
+"Chinese": "æ¿€çƒˆçš„"
 },
 {
 "English": "argument",
-"Chinese": "ª§½×"
+"Chinese": "çˆ­è«–"
 },
 {
 "English": "illustration",
-"Chinese": "´¡µe"
+"Chinese": "æ’ç•«"
 },
 {
 "English": "before long",
-"Chinese": "¤£¤["
+"Chinese": "ä¸ä¹…"
 },
 {
 "English": "revise",
-"Chinese": "­×§ï"
+"Chinese": "ä¿®æ”¹"
 },
 {
 "English": "lock",
-"Chinese": "§â...Âê¤W"
+"Chinese": "æŠŠ...é–ä¸Š"
 },
 {
 "English": "voice",
-"Chinese": "¥Î¨¥»yªí¹F"
+"Chinese": "ç”¨è¨€èªè¡¨é”"
 },
 {
 "English": "opinion",
-"Chinese": "·N¨£"
+"Chinese": "æ„è¦‹"
 },
 {
 "English": "proof",
-"Chinese": "ÃÒ¾Ú"
+"Chinese": "è­‰æ“š"
 },
 {
 "English": "comment",
-"Chinese": "µû½×"
+"Chinese": "è©•è«–"
 },
 {
 "English": "imply",
-"Chinese": "·t¥Ü"
+"Chinese": "æš—ç¤º"
 },
 {
 "English": "interpret",
-"Chinese": "¸ÑÄÀ"
+"Chinese": "è§£é‡‹"
 },
 {
 "English": "secondary",
-"Chinese": "¦¸­nªº"
+"Chinese": "æ¬¡è¦çš„"
 },
 {
 "English": "amazing",
-"Chinese": "Åå¤Hªº"
+"Chinese": "é©šäººçš„"
 },
 {
 "English": "crop",
-"Chinese": "¹A§@ª«"
+"Chinese": "è¾²ä½œç‰©"
 },
 {
 "English": "influence",
-"Chinese": "¼vÅT"
+"Chinese": "å½±éŸ¿"
 },
 {
 "English": "mankind",
-"Chinese": "¤H"
+"Chinese": "äºº"
 },
 {
 "English": "significantly",
-"Chinese": "ÅãµÛ¦a"
+"Chinese": "é¡¯è‘—åœ°"
 },
 {
 "English": "corn",
-"Chinese": "¥É¦Ì"
+"Chinese": "ç‰ç±³"
 },
 {
 "English": "wheat",
-"Chinese": "¤p³Á"
+"Chinese": "å°éº¥"
 },
 {
 "English": "climate",
-"Chinese": "®ğ­Ô"
+"Chinese": "æ°£å€™"
 },
 {
 "English": "sauce",
-"Chinese": "Âæ"
+"Chinese": "é†¬"
 },
 {
 "English": "means",
-"Chinese": "¤â¬q"
+"Chinese": "æ‰‹æ®µ"
 },
 {
 "English": "namely",
-"Chinese": "§Y"
+"Chinese": "å³"
 },
 {
 "English": "prove",
-"Chinese": "ÃÒ©ú"
+"Chinese": "è­‰æ˜"
 },
 {
 "English": "value",
-"Chinese": "»ù­È"
+"Chinese": "åƒ¹å€¼"
 },
 {
 "English": "protein",
-"Chinese": "³J¥Õ½è"
+"Chinese": "è›‹ç™½è³ª"
 },
 {
 "English": "basis",
-"Chinese": "°òÂ¦"
+"Chinese": "åŸºç¤"
 },
 {
 "English": "increasingly",
-"Chinese": "º¥¼W¦a"
+"Chinese": "æ¼¸å¢åœ°"
 },
 {
 "English": "diet",
-"Chinese": "¶¼­¹"
+"Chinese": "é£²é£Ÿ"
 },
 {
 "English": "importance",
-"Chinese": "­«­n©Ê"
+"Chinese": "é‡è¦æ€§"
 },
 {
 "English": "delicious",
-"Chinese": "¦n¦Yªº"
+"Chinese": "å¥½åƒçš„"
 },
 {
 "English": "risk",
-"Chinese": "­·ÀI"
+"Chinese": "é¢¨éšª"
 },
 {
 "English": "disappear",
-"Chinese": "®ø¥¢"
+"Chinese": "æ¶ˆå¤±"
 },
 {
 "English": "completely",
-"Chinese": "§¹¥ş¦a"
+"Chinese": "å®Œå…¨åœ°"
 },
 {
 "English": "creature",
-"Chinese": "¥Íª«"
+"Chinese": "ç”Ÿç‰©"
 },
 {
 "English": "stubborn",
-"Chinese": "¹x©Tªº"
+"Chinese": "é ‘å›ºçš„"
 },
 {
 "English": "favor",
-"Chinese": "§ó³ß·R"
+"Chinese": "æ›´å–œæ„›"
 },
 {
 "English": "bother",
-"Chinese": "¨Ï·Ğ´o¤£¦w"
+"Chinese": "ä½¿ç…©æƒ±ä¸å®‰"
 },
 {
 "English": "refuse",
-"Chinese": "©Úµ´"
+"Chinese": "æ‹’çµ•"
 },
 {
 "English": "mate",
-"Chinese": "¥æ°t"
+"Chinese": "äº¤é…"
 },
 {
 "English": "put off",
-"Chinese": "¨Ï¤Ï·P"
+"Chinese": "ä½¿åæ„Ÿ"
 },
 {
 "English": "sensitive",
-"Chinese": "±Ó·Pªº"
+"Chinese": "æ•æ„Ÿçš„"
 },
 {
 "English": "contain",
-"Chinese": "¥]§t"
+"Chinese": "åŒ…å«"
 },
 {
 "English": "information",
-"Chinese": "¸ê°T"
+"Chinese": "è³‡è¨Š"
 },
 {
 "English": "communicate",
-"Chinese": "·¾³q¥æ¬y"
+"Chinese": "æºé€šäº¤æµ"
 },
 {
 "English": "activity",
-"Chinese": "¬¡°Ê"
+"Chinese": "æ´»å‹•"
 },
 {
 "English": "disturb",
-"Chinese": "¥´ÂZ"
+"Chinese": "æ‰“æ“¾"
 },
 {
 "English": "locate",
-"Chinese": "§ä¨ì"
+"Chinese": "æ‰¾åˆ°"
 },
 {
 "English": "affect",
-"Chinese": "¼vÅT"
+"Chinese": "å½±éŸ¿"
 },
 {
 "English": "behavior",
-"Chinese": "¦æ¬°"
+"Chinese": "è¡Œç‚º"
 },
 {
 "English": "perfume",
-"Chinese": "­»¤ô"
+"Chinese": "é¦™æ°´"
 },
 {
 "English": "develop",
-"Chinese": "¨Ïµo®i"
+"Chinese": "ä½¿ç™¼å±•"
 },
 {
 "English": "pleasant",
-"Chinese": "¥O¤H´r®®ªº"
+"Chinese": "ä»¤äººæ„‰æ‚…çš„"
 },
 {
 "English": "expand",
-"Chinese": "ÂX¤j"
+"Chinese": "æ“´å¤§"
 },
 {
 "English": "possibility",
-"Chinese": "¥i¯à©Ê"
+"Chinese": "å¯èƒ½æ€§"
 },
 {
 "English": "entry",
-"Chinese": "¶i¤JÅv"
+"Chinese": "é€²å…¥æ¬Š"
 },
 {
 "English": "spray",
-"Chinese": "¼QÅx"
+"Chinese": "å™´ç‘"
 },
 {
 "English": "amout",
-"Chinese": "¼Æ¶q"
+"Chinese": "æ•¸é‡"
 },
 {
 "English": "blend",
-"Chinese": "²V¦X"
+"Chinese": "æ··åˆ"
 },
 {
 "English": "outcome",
-"Chinese": "µ²ªG"
+"Chinese": "çµæœ"
 },
 {
 "English": "concept",
-"Chinese": "Æ[©À"
+"Chinese": "è§€å¿µ"
 },
 {
 "English": "shift",
-"Chinese": "§ïÅÜ"
+"Chinese": "æ”¹è®Š"
 },
 {
 "English": "conventional",
-"Chinese": "¶Ç²Î¤Wªº"
+"Chinese": "å‚³çµ±ä¸Šçš„"
 },
 {
 "English": "overcome",
-"Chinese": "¾Ô³Ó"
+"Chinese": "æˆ°å‹"
 },
 {
 "English": "boldness",
-"Chinese": "«i´±"
+"Chinese": "å‹‡æ•¢"
 },
 {
 "English": "favorable",
-"Chinese": "ÃÙ¦¨ªº"
+"Chinese": "è´Šæˆçš„"
 },
 {
 "English": "review",
-"Chinese": "µû»ù"
+"Chinese": "è©•åƒ¹"
 },
 {
 "English": "rumor",
-"Chinese": "ÁÁ¶Ç"
+"Chinese": "è¬ å‚³"
 },
 {
 "English": "deliver",
-"Chinese": "´£¨Ñ"
+"Chinese": "æä¾›"
 },
 {
 "English": "specific",
-"Chinese": "¯S©wªº"
+"Chinese": "ç‰¹å®šçš„"
 },
 {
 "English": "analyze",
-"Chinese": "¤ÀªR"
+"Chinese": "åˆ†æ"
 },
 {
 "English": "location",
-"Chinese": "¦ì¸m"
+"Chinese": "ä½ç½®"
 },
 {
 "English": "remote",
-"Chinese": "°¾»·ªº"
+"Chinese": "åé çš„"
 },
 {
 "English": "recognize",
-"Chinese": "»{¥X"
+"Chinese": "èªå‡º"
 },
 {
 "English": "harmory",
-"Chinese": "©M¿Ó"
+"Chinese": "å’Œè«§"
 },
 {
 "English": "determine",
-"Chinese": "§P©w"
+"Chinese": "åˆ¤å®š"
 },
 {
 "English": "accuracy",
-"Chinese": "·Ç½T"
+"Chinese": "æº–ç¢º"
 },
 {
 "English": "vary",
-"Chinese": "¦³®t²§"
+"Chinese": "æœ‰å·®ç•°"
 },
 {
 "English": "rare",
-"Chinese": "¨u¨£ªº"
+"Chinese": "ç½•è¦‹çš„"
 },
 {
 "English": "occasion",
-"Chinese": "³õ¦X"
+"Chinese": "å ´åˆ"
 },
 {
 "English": "cooperate",
-"Chinese": "°t¦X"
+"Chinese": "é…åˆ"
 },
 {
 "English": "exchange",
-"Chinese": "¥æ´«"
+"Chinese": "äº¤æ›"
 },
 {
 "English": "ignore",
-"Chinese": "©¿µø"
+"Chinese": "å¿½è¦–"
 },
 {
 "English": "function",
-"Chinese": "°_§@¥Î"
+"Chinese": "èµ·ä½œç”¨"
 },
 {
 "English": "territory",
-"Chinese": "¦a½L"
+"Chinese": "åœ°ç›¤"
 },
 {
 "English": "survive",
-"Chinese": "¦s¬¡"
+"Chinese": "å­˜æ´»"
 },
 {
 "English": "identify",
-"Chinese": "ÃÑ§O"
+"Chinese": "è­˜åˆ¥"
 },
 {
 "English": "evidence",
-"Chinese": "ÃÒ¾Ú"
+"Chinese": "è­‰æ“š"
 },
 {
 "English": "capacity",
-"Chinese": "¯à¤O"
+"Chinese": "èƒ½åŠ›"
 },
 {
 "English": "demonstrate",
-"Chinese": "¥Ü½d"
+"Chinese": "ç¤ºç¯„"
 },
 {
 "English": "scratch",
-"Chinese": "§ì"
+"Chinese": "æŠ“"
 },
 {
 "English": "cinema",
-"Chinese": "¹q¼v°|"
+"Chinese": "é›»å½±é™¢"
 },
 {
 "English": "essential",
-"Chinese": "­«­nªº"
+"Chinese": "é‡è¦çš„"
 },
 {
 "English": "entertainment",
-"Chinese": "®T¼Ö"
+"Chinese": "å¨›æ¨‚"
 },
 {
 "English": "direct",
-"Chinese": "»s§@"
+"Chinese": "è£½ä½œ"
 },
 {
 "English": "silence",
-"Chinese": "±IÀR"
+"Chinese": "å¯‚éœ"
 },
 {
 "English": "fair",
-"Chinese": "¶é¹C·|"
+"Chinese": "åœ’éŠæœƒ"
 },
 {
 "English": "stage",
-"Chinese": "»R¥x"
+"Chinese": "èˆå°"
 },
 {
 "English": "inventor",
-"Chinese": "µo©ú®a"
+"Chinese": "ç™¼æ˜å®¶"
 },
 {
 "English": "proper",
-"Chinese": "«ê·íªº"
+"Chinese": "æ°ç•¶çš„"
 },
 {
 "English": "decade",
-"Chinese": "¢Ì¦~"
+"Chinese": "åå¹´"
 },
 {
 "English": "nearly",
-"Chinese": "´X¥G"
+"Chinese": "å¹¾ä¹"
 },
 {
 "English": "dialogue",
-"Chinese": "¹ï¸Ü"
+"Chinese": "å°è©±"
 },
 {
 "English": "inspire",
-"Chinese": "¿EµoÆF·P"
+"Chinese": "æ¿€ç™¼éˆæ„Ÿ"
 },
 {
 "English": "creativity",
-"Chinese": "³Ğ³y¤O"
+"Chinese": "å‰µé€ åŠ›"
 },
 {
 "English": "career",
-"Chinese": "Â¾·~"
+"Chinese": "è·æ¥­"
 },
 {
 "English": "fame",
-"Chinese": "¦WÁn"
+"Chinese": "åè²"
 },
 {
 "English": "hardship",
-"Chinese": "§x­W"
+"Chinese": "å›°è‹¦"
 },
 {
 "English": "dramatically",
-"Chinese": "¥¨¤j¦a"
+"Chinese": "å·¨å¤§åœ°"
 },
 {
 "English": "switch",
-"Chinese": "¤Á´«"
+"Chinese": "åˆ‡æ›"
 },
 {
 "English": "emergence",
-"Chinese": "¿³°_"
+"Chinese": "èˆˆèµ·"
 },
 {
 "English": "dependent",
-"Chinese": "¨Ì¾aªº"
+"Chinese": "ä¾é çš„"
 },
 {
 "English": "imagine",
-"Chinese": "·Q¹³"
+"Chinese": "æƒ³åƒ"
 },
 {
 "English": "electronics",
-"Chinese": "¹q¤l³]³Æ"
+"Chinese": "é›»å­è¨­å‚™"
 },
 {
 "English": "advanced",
-"Chinese": "¥ı¶iªº"
+"Chinese": "å…ˆé€²çš„"
 },
 {
 "English": "commercial",
-"Chinese": "°Ó·~ªº"
+"Chinese": "å•†æ¥­çš„"
 },
 {
 "English": "technically",
-"Chinese": "ÄY®æ¨Ó»¡"
+"Chinese": "åš´æ ¼ä¾†èªª"
 },
 {
 "English": "assistant",
-"Chinese": "§U²z"
+"Chinese": "åŠ©ç†"
 },
 {
 "English": "device",
-"Chinese": "³]³Æ"
+"Chinese": "è¨­å‚™"
 },
 {
 "English": "imitate",
-"Chinese": "¼Ò¥é"
+"Chinese": "æ¨¡ä»¿"
 },
 {
 "English": "invent",
-"Chinese": "³Ğ³y¤O"
+"Chinese": "å‰µé€ åŠ›"
 },
 {
 "English": "further",
-"Chinese": "±À¶i"
+"Chinese": "æ¨é€²"
 },
 {
 "English": "research",
-"Chinese": "¬ã¨s"
+"Chinese": "ç ”ç©¶"
 },
 {
 "English": "combination",
-"Chinese": "µ²¦X"
+"Chinese": "çµåˆ"
 },
 {
 "English": "practical",
-"Chinese": "¹ê¥Îªº"
+"Chinese": "å¯¦ç”¨çš„"
 },
 {
 "English": "fashionable",
-"Chinese": "®É»ìªº"
+"Chinese": "æ™‚é«¦çš„"
 },
 {
 "English": "in addition to",
-"Chinese": "°£¤F...¤§¥~"
+"Chinese": "é™¤äº†...ä¹‹å¤–"
 },
 {
 "English": "educate",
-"Chinese": "±Ğ¨|"
+"Chinese": "æ•™è‚²"
 },
 {
 "English": "entertain",
-"Chinese": "®T¼Ö"
+"Chinese": "å¨›æ¨‚"
 },
 {
 "English": "growth",
-"Chinese": "¼W¦h"
+"Chinese": "å¢å¤š"
 },
 {
 "English": "promote",
-"Chinese": "±À¼s"
+"Chinese": "æ¨å»£"
 },
 {
 "English": "hady",
-"Chinese": "¤è«Kªº"
+"Chinese": "æ–¹ä¾¿çš„"
 },
 {
 "English": "microwave",
-"Chinese": "·LªiÄl"
+"Chinese": "å¾®æ³¢çˆ"
 },
 {
 "English": "extra",
-"Chinese": "ÃB¥~¤§ª«"
+"Chinese": "é¡å¤–ä¹‹ç‰©"
 },
 {
 "English": "typically",
-"Chinese": "³q±`"
+"Chinese": "é€šå¸¸"
 },
 {
 "English": "design",
-"Chinese": "³]­p"
+"Chinese": "è¨­è¨ˆ"
 },
 {
 "English": "motivate",
-"Chinese": "¿Eµo"
+"Chinese": "æ¿€ç™¼"
 },
 {
 "English": "ideal",
-"Chinese": "²z·Qªº"
+"Chinese": "ç†æƒ³çš„"
 },
 {
 "English": "task",
-"Chinese": "¥ô°È"
+"Chinese": "ä»»å‹™"
 },
 {
 "English": "drag",
-"Chinese": "©ì"
+"Chinese": "æ‹–"
 },
 {
 "English": "especially",
-"Chinese": "¤×¨ä"
+"Chinese": "å°¤å…¶"
 },
 {
 "English": "sticky",
-"Chinese": "ÂHªº"
+"Chinese": "é»çš„"
 },
 {
 "English": "dust",
-"Chinese": "¦Ç¹Ğ"
+"Chinese": "ç°å¡µ"
 },
 {
 "English": "keyboard",
-"Chinese": "Áä½L"
+"Chinese": "éµç›¤"
 },
 {
 "English": "polish",
-"Chinese": "«G¥ú¾¯"
+"Chinese": "äº®å…‰åŠ‘"
 },
 {
 "English": "tell apart",
-"Chinese": "¤À¿ë...ªº¤£¦P"
+"Chinese": "åˆ†è¾¨...çš„ä¸åŒ"
 },
 {
 "English": "distribute",
-"Chinese": "¤À°e"
+"Chinese": "åˆ†é€"
 },
 {
 "English": "combine",
-"Chinese": "µ²¦X"
+"Chinese": "çµåˆ"
 },
 {
 "English": "handle",
-"Chinese": "¤â§â"
+"Chinese": "æ‰‹æŠŠ"
 },
 {
 "English": "baggage",
-"Chinese": "¦æ§õ"
+"Chinese": "è¡Œæ"
 },
 {
 "English": "invention",
-"Chinese": "µo©úª«"
+"Chinese": "ç™¼æ˜ç‰©"
 },
 {
 "English": "brilliant",
-"Chinese": "Áo©úªº"
+"Chinese": "è°æ˜çš„"
 },
 {
 "English": "complete",
-"Chinese": "§¹¾ãªº"
+"Chinese": "å®Œæ•´çš„"
 },
 {
 "English": "accident",
-"Chinese": "·N¥~"
+"Chinese": "æ„å¤–"
 },
 {
 "English": "material",
-"Chinese": "ª«½è"
+"Chinese": "ç‰©è³ª"
 },
 {
 "English": "explode",
-"Chinese": "¨ÏÃz¬µ"
+"Chinese": "ä½¿çˆ†ç‚¸"
 },
 {
 "English": "control",
-"Chinese": "¤ä°t"
+"Chinese": "æ”¯é…"
 },
 {
 "English": "manner",
-"Chinese": "¤è¦¡"
+"Chinese": "æ–¹å¼"
 },
 {
 "English": "amateur",
-"Chinese": "·~¾l·R¦nªº"
+"Chinese": "æ¥­é¤˜æ„›å¥½çš„"
 },
 {
 "English": "burst",
-"Chinese": "Ãz¯}"
+"Chinese": "çˆ†ç ´"
 },
 {
 "English": "flame",
-"Chinese": "¤õµK"
+"Chinese": "ç«ç„°"
 },
 {
 "English": "prosper",
-"Chinese": "Ácºa"
+"Chinese": "ç¹æ¦®"
 },
 {
 "English": "universally",
-"Chinese": "´¶¹M¦a"
+"Chinese": "æ™®éåœ°"
 },
 {
 "English": "ray",
-"Chinese": "¥ú½u"
+"Chinese": "å…‰ç·š"
 },
 {
 "English": "object",
-"Chinese": "ª«Åé"
+"Chinese": "ç‰©é«”"
 },
 {
 "English": "contribution",
-"Chinese": "°^Äm"
+"Chinese": "è²¢ç»"
 },
 {
 "English": "medal",
-"Chinese": "¼úµP"
+"Chinese": "çç‰Œ"
 },
 {
 "English": "earnings",
-"Chinese": "¦¬¤J"
+"Chinese": "æ”¶å…¥"
 },
 {
 "English": "deserted",
-"Chinese": "¯î²Dªº"
+"Chinese": "è’æ¶¼çš„"
 },
 {
 "English": "culture",
-"Chinese": "°ö¾iµß"
+"Chinese": "åŸ¹é¤ŠèŒ"
 },
 {
 "English": "apparently",
-"Chinese": "ÅãµM¦a"
+"Chinese": "é¡¯ç„¶åœ°"
 },
 {
 "English": "modestly",
-"Chinese": "Á¾µê¦a"
+"Chinese": "è¬™è™›åœ°"
 },
 {
 "English": "clumsy",
-"Chinese": "²Â¤â²Â¸}ªº"
+"Chinese": "ç¬¨æ‰‹ç¬¨è…³çš„"
 },
 {
 "English": "dominant",
-"Chinese": "¥D­nªº"
+"Chinese": "ä¸»è¦çš„"
 },
 {
 "English": "rank",
-"Chinese": "¦a¦ì"
+"Chinese": "åœ°ä½"
 },
 {
 "English": "figure",
-"Chinese": "­«­n¤Hª«"
+"Chinese": "é‡è¦äººç‰©"
 },
 {
 "English": "suffer",
-"Chinese": "©Ó¨ü"
+"Chinese": "æ‰¿å—"
 },
 {
 "English": "scarcity",
-"Chinese": "¯Ê¥F"
+"Chinese": "ç¼ºä¹"
 },
 {
 "English": "remedy",
-"Chinese": "ªvÀø"
+"Chinese": "æ²»ç™‚"
 },
 {
 "English": "strike",
-"Chinese": "¸IÀ»"
+"Chinese": "ç¢°æ“Š"
 },
 {
 "English": "devil",
-"Chinese": "´cÅ]"
+"Chinese": "æƒ¡é­”"
 },
 {
 "English": "advantage",
-"Chinese": "¦³§Q±ø¥ó"
+"Chinese": "æœ‰åˆ©æ¢ä»¶"
 },
 {
 "English": "cope",
-"Chinese": "³B²z"
+"Chinese": "è™•ç†"
 },
 {
 "English": "struggle",
-"Chinese": "§V¤O"
+"Chinese": "åŠªåŠ›"
 },
 {
 "English": "physical",
-"Chinese": "¨­Åéªº"
+"Chinese": "èº«é«”çš„"
 },
 {
 "English": "aware",
-"Chinese": "ª¾¹Dªº"
+"Chinese": "çŸ¥é“çš„"
 },
 {
 "English": "confidence",
-"Chinese": "«H¥ô"
+"Chinese": "ä¿¡ä»»"
 },
 {
 "English": "sympathetic",
-"Chinese": "¦³¦P±¡¤ßªº"
+"Chinese": "æœ‰åŒæƒ…å¿ƒçš„"
 },
 {
 "English": "gear",
-"Chinese": "³]³Æ"
+"Chinese": "è¨­å‚™"
 },
 {
 "English": "capable",
-"Chinese": "¦³¯à¤Oªº"
+"Chinese": "æœ‰èƒ½åŠ›çš„"
 },
 {
 "English": "accomplishment",
-"Chinese": "¦¨´N"
+"Chinese": "æˆå°±"
 },
 {
 "English": "serve",
-"Chinese": "ºİ¤W"
+"Chinese": "ç«¯ä¸Š"
 },
 {
 "English": "fare",
-"Chinese": "À\ÂI"
+"Chinese": "é¤é»"
 },
 {
 "English": "cultural",
-"Chinese": "¤å¤Æªº"
+"Chinese": "æ–‡åŒ–çš„"
 },
 {
 "English": "particularly",
-"Chinese": "¯S§O¬O"
+"Chinese": "ç‰¹åˆ¥æ˜¯"
 },
 {
 "English": "pride",
-"Chinese": "¥H...¦Û»¨"
+"Chinese": "ä»¥...è‡ªè±ª"
 },
 {
 "English": "for instance",
-"Chinese": "Á|¨Ò¨Ó»¡"
+"Chinese": "èˆ‰ä¾‹ä¾†èªª"
 },
 {
 "English": "boast",
-"Chinese": "¥H¾Ö¦³...¦Û»¨"
+"Chinese": "ä»¥æ“æœ‰...è‡ªè±ª"
 },
 {
 "English": "regional",
-"Chinese": "¦a°Ïªº"
+"Chinese": "åœ°å€çš„"
 },
 {
 "English": "exist",
-"Chinese": "¦s¦b"
+"Chinese": "å­˜åœ¨"
 },
 {
 "English": "distinguished",
-"Chinese": "µÛ¦Wªº"
+"Chinese": "è‘—åçš„"
 },
 {
 "English": "include",
-"Chinese": "¥]¬A"
+"Chinese": "åŒ…æ‹¬"
 },
 {
 "English": "method",
-"Chinese": "¤èªk"
+"Chinese": "æ–¹æ³•"
 },
 {
 "English": "result in",
-"Chinese": "³y¦¨"
+"Chinese": "é€ æˆ"
 },
 {
 "English": "genuine",
-"Chinese": "¯u¥¿ªº"
+"Chinese": "çœŸæ­£çš„"
 },
 {
 "English": "toss",
-"Chinese": "©ß"
+"Chinese": "æ‹‹"
 },
 {
 "English": "constantly",
-"Chinese": "«ùÄò¤£Â_¦a"
+"Chinese": "æŒçºŒä¸æ–·åœ°"
 },
 {
 "English": "apply",
-"Chinese": "¹B¥Î"
+"Chinese": "é‹ç”¨"
 },
 {
 "English": "season",
-"Chinese": "µ¹...½Õ¨ı"
+"Chinese": "çµ¦...èª¿å‘³"
 },
 {
 "English": "diner",
-"Chinese": "¥ÎÀ\ªÌ"
+"Chinese": "ç”¨é¤è€…"
 },
 {
 "English": "frequently",
-"Chinese": "¸g±`¦a"
+"Chinese": "ç¶“å¸¸åœ°"
 },
 {
 "English": "additional",
-"Chinese": "ÃB¥~ªº"
+"Chinese": "é¡å¤–çš„"
 },
 {
 "English": "consume",
-"Chinese": "¦Y"
+"Chinese": "åƒ"
 },
 {
 "English": "consist of",
-"Chinese": "¥Ñ...²Õ¦¨"
+"Chinese": "ç”±...çµ„æˆ"
 },
 {
 "English": "traditionally",
-"Chinese": "¶Ç²Î¤Wªº"
+"Chinese": "å‚³çµ±ä¸Šçš„"
 },
 {
 "English": "debate",
-"Chinese": "ÅG½×ªº"
+"Chinese": "è¾¯è«–çš„"
 },
 {
 "English": "superior",
-"Chinese": "Àu©ó...ªº"
+"Chinese": "å„ªæ–¼...çš„"
 },
 {
 "English": "intelligent",
-"Chinese": "Áo©úªº"
+"Chinese": "è°æ˜çš„"
 },
 {
 "English": "feature",
-"Chinese": "¥Ñ...¥Dºt"
+"Chinese": "ç”±...ä¸»æ¼”"
 },
 {
 "English": "graduate",
-"Chinese": "¬ã¨s¥Íªº"
+"Chinese": "ç ”ç©¶ç”Ÿçš„"
 },
 {
 "English": "professor",
-"Chinese": "±Ğ±Â"
+"Chinese": "æ•™æˆ"
 },
 {
 "English": "sample",
-"Chinese": "¼Ë¥»"
+"Chinese": "æ¨£æœ¬"
 },
 {
 "English": "measure",
-"Chinese": "´ú¶q"
+"Chinese": "æ¸¬é‡"
 },
 {
 "English": "indicate",
-"Chinese": "ªí©ú"
+"Chinese": "è¡¨æ˜"
 },
 {
 "English": "emotional",
-"Chinese": "±¡ºü¤Wªº"
+"Chinese": "æƒ…ç·’ä¸Šçš„"
 },
 {
 "English": "admit",
-"Chinese": "©Ó»{"
+"Chinese": "æ‰¿èª"
 },
 {
 "English": "limited",
-"Chinese": "¦³­­ªº"
+"Chinese": "æœ‰é™çš„"
 },
 {
 "English": "laboratory",
-"Chinese": "¹êÅç«Ç"
+"Chinese": "å¯¦é©—å®¤"
 },
 {
 "English": "familiar",
-"Chinese": "¼ô±xªº"
+"Chinese": "ç†Ÿæ‚‰çš„"
 },
 {
 "English": "match",
-"Chinese": "¾¾...¬Û°t"
+"Chinese": "å™¢...ç›¸é…"
 },
 {
 "English": "corresponding",
-"Chinese": "¬ÛÀ³ªº"
+"Chinese": "ç›¸æ‡‰çš„"
 },
 {
 "English": "facial",
-"Chinese": "Áy³¡ªº"
+"Chinese": "è‡‰éƒ¨çš„"
 },
 {
 "English": "expression",
-"Chinese": "ªí±¡"
+"Chinese": "è¡¨æƒ…"
 },
 {
 "English": "interact",
-"Chinese": "¤¬°Ê"
+"Chinese": "äº’å‹•"
 },
 {
 "English": "avoid",
-"Chinese": "°jÁ×"
+"Chinese": "è¿´é¿"
 },
 {
 "English": "upset",
-"Chinese": "¶Ë¤ßÃø¹Lªº"
+"Chinese": "å‚·å¿ƒé›£éçš„"
 },
 {
 "English": "complex",
-"Chinese": "¿ùºî½ÆÂøªº"
+"Chinese": "éŒ¯ç¶œè¤‡é›œçš„"
 },
 {
 "English": "prefer",
-"Chinese": "§ó³ßÅw"
+"Chinese": "æ›´å–œæ­¡"
 },
 {
 "English": "continuously",
-"Chinese": "«ùÄò¤£Â_¦a"
+"Chinese": "æŒçºŒä¸æ–·åœ°"
 },
 {
 "English": "barely",
-"Chinese": "´X¥G¨S¦³¦a"
+"Chinese": "å¹¾ä¹æ²’æœ‰åœ°"
 },
 {
 "English": "frustrated",
-"Chinese": "¥¢·Nªº"
+"Chinese": "å¤±æ„çš„"
 },
 {
 "English": "immigrant",
-"Chinese": "²¾¥Á"
+"Chinese": "ç§»æ°‘"
 },
 {
 "English": "creative",
-"Chinese": "´I¦³³Ğ·Nªº"
+"Chinese": "å¯Œæœ‰å‰µæ„çš„"
 },
 {
 "English": "attempt",
-"Chinese": "¹Á¸Õ"
+"Chinese": "å˜—è©¦"
 },
 {
 "English": "reform",
-"Chinese": "§ï¨}"
+"Chinese": "æ”¹è‰¯"
 },
 {
 "English": "marble",
-"Chinese": "¼u¯]"
+"Chinese": "å½ˆç "
 },
 {
 "English": "construct",
-"Chinese": "«Ø³y"
+"Chinese": "å»ºé€ "
 },
 {
 "English": "stick",
-"Chinese": "ÂH¶K"
+"Chinese": "é»è²¼"
 },
 {
 "English": "circular",
-"Chinese": "¶ê§Îªº"
+"Chinese": "åœ“å½¢çš„"
 },
 {
 "English": "resistance",
-"Chinese": "©è§Ü"
+"Chinese": "æŠµæŠ—"
 },
 {
 "English": "ease",
-"Chinese": "¤£¶O¤O"
+"Chinese": "ä¸è²»åŠ›"
 },
 {
 "English": "efficiency",
-"Chinese": "®Ä²v"
+"Chinese": "æ•ˆç‡"
 },
 {
 "English": "manufacture",
-"Chinese": "»s³y"
+"Chinese": "è£½é€ "
 },
 {
 "English": "unfortunately",
-"Chinese": "¥i±¤¦a"
+"Chinese": "å¯æƒœåœ°"
 },
 {
 "English": "original",
-"Chinese": "­ì¥ıªº"
+"Chinese": "åŸå…ˆçš„"
 },
 {
 "English": "desire",
-"Chinese": "·Q­n"
+"Chinese": "æƒ³è¦"
 },
 {
 "English": "expense",
-"Chinese": "¶}¾P"
+"Chinese": "é–‹éŠ·"
 },
 {
 "English": "resist",
-"Chinese": "§Ü©Ú"
+"Chinese": "æŠ—æ‹’"
 },
 {
 "English": "ingredfient",
-"Chinese": "¦¨¤À"
+"Chinese": "æˆåˆ†"
 },
 {
 "English": "differ",
-"Chinese": "¤£¦P"
+"Chinese": "ä¸åŒ"
 },
 {
 "English": "considerably",
-"Chinese": "¬Û·í¤j"
+"Chinese": "ç›¸ç•¶å¤§"
 },
 {
 "English": "smooth",
-"Chinese": "¨Ï¥­·Æ"
+"Chinese": "ä½¿å¹³æ»‘"
 },
 {
 "English": "liquid",
-"Chinese": "²GÅé"
+"Chinese": "æ¶²é«”"
 },
 {
 "English": "fold",
-"Chinese": "ºPÅ|"
+"Chinese": "æ‘ºç–Š"
 },
 {
 "English": "gain",
-"Chinese": "Àò±o"
+"Chinese": "ç²å¾—"
 },
 {
 "English": "attention",
-"Chinese": "Ãöª`"
+"Chinese": "é—œæ³¨"
 },
 {
 "English": "throughout",
-"Chinese": "¹M¤Î"
+"Chinese": "éåŠ"
 },
 {
 "English": "properly",
-"Chinese": "¥¿½T¦a"
+"Chinese": "æ­£ç¢ºåœ°"
 },
 {
 "English": "content",
-"Chinese": "¤º®eª«"
+"Chinese": "å…§å®¹ç‰©"
 },
 {
 "English": "desirable",
-"Chinese": "­È±oÂQ©¹ªº"
+"Chinese": "å€¼å¾—åš®å¾€çš„"
 },
 {
 "English": "preferably",
-"Chinese": "³Ì¦n¬O"
+"Chinese": "æœ€å¥½æ˜¯"
 },
 {
 "English": "numerous",
-"Chinese": "¤j¶qªº"
+"Chinese": "å¤§é‡çš„"
 },
 {
 "English": "preparation",
-"Chinese": "·Ç³Æ"
+"Chinese": "æº–å‚™"
 },
 {
 "English": "originally",
-"Chinese": "­ì¥»"
+"Chinese": "åŸæœ¬"
 },
 {
 "English": "arrange",
-"Chinese": "¾ã²z"
+"Chinese": "æ•´ç†"
 },
 {
 "English": "occasionally",
-"Chinese": "°¸º¸"
+"Chinese": "å¶çˆ¾"
 },
 {
 "English": "delight",
-"Chinese": "¥O¤H´r§Öªº¨Æª«"
+"Chinese": "ä»¤äººæ„‰å¿«çš„äº‹ç‰©"
 },
 {
 "English": "digest",
-"Chinese": "®ø¤Æ"
+"Chinese": "æ¶ˆåŒ–"
 },
 {
 "English": "description",
-"Chinese": "´y­z"
+"Chinese": "æè¿°"
 },
 {
 "English": "reluctant",
-"Chinese": "¤£±¡Ä@ªº"
+"Chinese": "ä¸æƒ…é¡˜çš„"
 },
 {
 "English": "saying",
-"Chinese": "¿Î»y"
+"Chinese": "è«ºèª"
 },
 {
 "English": "beggar",
-"Chinese": "¤^¤¢"
+"Chinese": "ä¹ä¸"
 },
 {
 "English": "charity",
-"Chinese": "·Oµ½¾÷ºc"
+"Chinese": "æ…ˆå–„æ©Ÿæ§‹"
 },
 {
 "English": "needy",
-"Chinese": "³h½aªº"
+"Chinese": "è²§çª®çš„"
 },
 {
 "English": "in terms of",
-"Chinese": "¥H...¤è­±¨Ó¬İ"
+"Chinese": "ä»¥...æ–¹é¢ä¾†çœ‹"
 },
 {
 "English": "found",
-"Chinese": "¿³«Ø"
+"Chinese": "èˆˆå»º"
 },
 {
 "English": "advertising",
-"Chinese": "¼s§i·~"
+"Chinese": "å»£å‘Šæ¥­"
 },
 {
 "English": "opportunity",
-"Chinese": "¾÷·|"
+"Chinese": "æ©Ÿæœƒ"
 },
 {
 "English": "dignity",
-"Chinese": "´LÄY"
+"Chinese": "å°Šåš´"
 },
 {
 "English": "volunteer",
-"Chinese": "§ÓÄ@ªÌ"
+"Chinese": "å¿—é¡˜è€…"
 },
 {
 "English": "leather",
-"Chinese": "¥Ö­²ªº"
+"Chinese": "çš®é©çš„"
 },
 {
 "English": "exact",
-"Chinese": "½T¤Áªº"
+"Chinese": "ç¢ºåˆ‡çš„"
 },
 {
 "English": "partner",
-"Chinese": "¨Ï¦X§@"
+"Chinese": "ä½¿åˆä½œ"
 },
 {
 "English": "assemble",
-"Chinese": "¶°¦X"
+"Chinese": "é›†åˆ"
 },
 {
 "English": "suitable",
-"Chinese": "¦X¾Aªº"
+"Chinese": "åˆé©çš„"
 },
 {
 "English": "permission",
-"Chinese": "³\¥i"
+"Chinese": "è¨±å¯"
 },
 {
 "English": "authority",
-"Chinese": "¦æ¬FºŞ²z¾÷ºc"
+"Chinese": "è¡Œæ”¿ç®¡ç†æ©Ÿæ§‹"
 },
 {
 "English": "poster",
-"Chinese": "®ü³ø"
+"Chinese": "æµ·å ±"
 },
 {
 "English": "host",
-"Chinese": "¥D¿ì"
+"Chinese": "ä¸»è¾¦"
 },
 {
 "English": "poverty",
-"Chinese": "³h½aªº"
+"Chinese": "è²§çª®çš„"
 },
 {
 "English": "vocabulary",
-"Chinese": "¦r·J"
+"Chinese": "å­—å½™"
 },
 {
 "English": "theme",
-"Chinese": "¥DÃD"
+"Chinese": "ä¸»é¡Œ"
 },
 {
 "English": "circulation",
-"Chinese": "¬y³q"
+"Chinese": "æµé€š"
 },
 {
 "English": "describe",
-"Chinese": "´y­z"
+"Chinese": "æè¿°"
 },
 {
 "English": "situation",
-"Chinese": "±¡ªp"
+"Chinese": "æƒ…æ³"
 },
 {
 "English": "spread",
-"Chinese": "¨Ï¶Ç¼½"
+"Chinese": "ä½¿å‚³æ’­"
 },
 {
 "English": "contact",
-"Chinese": "ÁpÃ´"
+"Chinese": "è¯ç¹«"
 },
 {
 "English": "separate",
-"Chinese": "¤À¶}"
+"Chinese": "åˆ†é–‹"
 },
 {
 "English": "zone",
-"Chinese": "°Ï°ì"
+"Chinese": "å€åŸŸ"
 },
 {
 "English": "recover",
-"Chinese": "´_­ì"
+"Chinese": "å¾©åŸ"
 },
 {
 "English": "devise",
-"Chinese": "³]­p"
+"Chinese": "è¨­è¨ˆ"
 },
 {
 "English": "strategy",
-"Chinese": "µ¦²¤"
+"Chinese": "ç­–ç•¥"
 },
 {
 "English": "passenger",
-"Chinese": "­¼«È"
+"Chinese": "ä¹˜å®¢"
 },
 {
 "English": "calculate",
-"Chinese": "­pºâ"
+"Chinese": "è¨ˆç®—"
 },
 {
 "English": "whenever",
-"Chinese": "¨C·í"
+"Chinese": "æ¯ç•¶"
 },
 {
 "English": "fever",
-"Chinese": "µo¿N"
+"Chinese": "ç™¼ç‡’"
 },
 {
 "English": "discover",
-"Chinese": "µo²{"
+"Chinese": "ç™¼ç¾"
 },
 {
 "English": "charge",
-"Chinese": "±±§i"
+"Chinese": "æ§å‘Š"
 },
 {
 "English": "permanently",
-"Chinese": "¥Ã¤[¦a"
+"Chinese": "æ°¸ä¹…åœ°"
 },
 {
 "English": "conclude",
-"Chinese": "±o¥Xµ²½×"
+"Chinese": "å¾—å‡ºçµè«–"
 },
 {
 "English": "native",
-"Chinese": "·í¦aªº"
+"Chinese": "ç•¶åœ°çš„"
 },
 {
 "English": "weaken",
-"Chinese": "«d®z"
+"Chinese": "å‰Šå¼±"
 },
 {
 "English": "eliminate",
-"Chinese": "®ø°£"
+"Chinese": "æ¶ˆé™¤"
 },
 {
 "English": "population",
-"Chinese": "¤H¤f"
+"Chinese": "äººå£"
 },
 {
 "English": "domestic",
-"Chinese": "°ê¤ºªº"
+"Chinese": "åœ‹å…§çš„"
 },
 {
 "English": "introduce",
-"Chinese": "¤Ş¶i"
+"Chinese": "å¼•é€²"
 },
 {
 "English": "settler",
-"Chinese": "²¾¥ÁªÌ"
+"Chinese": "ç§»æ°‘è€…"
 },
 {
 "English": "desperate",
-"Chinese": "¤ß«æ¦pµIªº"
+"Chinese": "å¿ƒæ€¥å¦‚ç„šçš„"
 },
 {
 "English": "get rid of",
-"Chinese": "Â\²æ"
+"Chinese": "æ“ºè„«"
 },
 {
 "English": "altogether",
-"Chinese": "§¹¥ş"
+"Chinese": "å®Œå…¨"
 },
 {
 "English": "balance",
-"Chinese": "¥­¿Å"
+"Chinese": "å¹³è¡¡"
 },
 {
 "English": "local",
-"Chinese": "·í¦aªº"
+"Chinese": "ç•¶åœ°çš„"
 },
 {
 "English": "breed",
-"Chinese": "«~ºØ"
+"Chinese": "å“ç¨®"
 },
 {
 "English": "instinct",
-"Chinese": "¥»¯à"
+"Chinese": "æœ¬èƒ½"
 },
 {
 "English": "guard",
-"Chinese": "¦u½Ã"
+"Chinese": "å®ˆè¡›"
 },
 {
 "English": "cattle",
-"Chinese": "¤û°¦"
+"Chinese": "ç‰›éš»"
 },
 {
 "English": "seriously",
-"Chinese": "»{¯u¦a"
+"Chinese": "èªçœŸåœ°"
 },
 {
 "English": "positive",
-"Chinese": "¥¿­±ªº"
+"Chinese": "æ­£é¢çš„"
 },
 {
 "English": "increase",
-"Chinese": "¼W¥["
+"Chinese": "å¢åŠ "
 },
 {
 "English": "project",
-"Chinese": "­pµe"
+"Chinese": "è¨ˆç•«"
 },
 {
 "English": "current",
-"Chinese": "·í«eªº"
+"Chinese": "ç•¶å‰çš„"
 },
 {
 "English": "retirement",
-"Chinese": "°h¥ğ¥Í¬¡"
+"Chinese": "é€€ä¼‘ç”Ÿæ´»"
 },
 {
 "English": "acquire",
-"Chinese": "Àò±o"
+"Chinese": "ç²å¾—"
 },
 {
 "English": "endangered",
-"Chinese": "ÃxÁ{µ´ºØªº"
+"Chinese": "ç€•è‡¨çµ•ç¨®çš„"
 },
 {
 "English": "enthusiasm",
-"Chinese": "¼ö¤ß"
+"Chinese": "ç†±å¿ƒ"
 },
 {
 "English": "tradition",
-"Chinese": "¶Ç²Î"
+"Chinese": "å‚³çµ±"
 },
 {
 "English": "unique",
-"Chinese": "¿W¦³ªº"
+"Chinese": "ç¨æœ‰çš„"
 },
 {
 "English": "honor",
-"Chinese": "¦V...­P·q"
+"Chinese": "å‘...è‡´æ•¬"
 },
 {
 "English": "fortune",
-"Chinese": "¹B®ğ"
+"Chinese": "é‹æ°£"
 },
 {
 "English": "single",
-"Chinese": "³æ¤@ªº"
+"Chinese": "å–®ä¸€çš„"
 },
 {
 "English": "represent",
-"Chinese": "¥Nªí"
+"Chinese": "ä»£è¡¨"
 },
 {
 "English": "wealth",
-"Chinese": "°]´I"
+"Chinese": "è²¡å¯Œ"
 },
 {
 "English": "whoever",
-"Chinese": "¤£½×¬O½Ö"
+"Chinese": "ä¸è«–æ˜¯èª°"
 },
 {
 "English": "reward",
-"Chinese": "¼ú½à"
+"Chinese": "çè³"
 },
 {
 "English": "promise",
-"Chinese": "¿Õ¨¥"
+"Chinese": "è«¾è¨€"
 },
 {
 "English": "depend",
-"Chinese": "¨ú¨M©ó"
+"Chinese": "å–æ±ºæ–¼"
 },
 {
 "English": "delighted",
-"Chinese": "°ª¿³ªº"
+"Chinese": "é«˜èˆˆçš„"
 },
 {
 "English": "approach",
-"Chinese": "±µªñ"
+"Chinese": "æ¥è¿‘"
 },
 {
 "English": "symbol",
-"Chinese": "¶H¼x"
+"Chinese": "è±¡å¾µ"
 },
 {
 "English": "plentiful",
-"Chinese": "Â×´Iªº"
+"Chinese": "è±å¯Œçš„"
 },
 {
 "English": "historical",
-"Chinese": "¾ú¥vªº"
+"Chinese": "æ­·å²çš„"
 },
 {
 "English": "female",
-"Chinese": "¤k©Êªº"
+"Chinese": "å¥³æ€§çš„"
 },
 {
 "English": "dive",
-"Chinese": "¸õ¤ô"
+"Chinese": "è·³æ°´"
 },
 {
 "English": "freezing",
-"Chinese": "´H§Nªº"
+"Chinese": "å¯’å†·çš„"
 },
 {
 "English": "similarly",
-"Chinese": "¦P¼Ë¦a"
+"Chinese": "åŒæ¨£åœ°"
 },
 {
 "English": "difference",
-"Chinese": "®t²§"
+"Chinese": "å·®ç•°"
 },
 {
 "English": "magnificent",
-"Chinese": "·¥¦nªº"
+"Chinese": "æ¥µå¥½çš„"
 },
 {
 "English": "mystery",
-"Chinese": "¯«¯µ"
+"Chinese": "ç¥ç§˜"
 },
 {
 "English": "unusual",
-"Chinese": "«D¤ñ´M±`ªº"
+"Chinese": "éæ¯”å°‹å¸¸çš„"
 },
 {
 "English": "existence",
-"Chinese": "¦s¦b"
+"Chinese": "å­˜åœ¨"
 },
 {
 "English": "curled",
-"Chinese": "±²¦±ªº"
+"Chinese": "æ²æ›²çš„"
 },
 {
 "English": "tiny",
-"Chinese": "·L¤p"
+"Chinese": "å¾®å°"
 },
 {
 "English": "regularly",
-"Chinese": "¸g±`"
+"Chinese": "ç¶“å¸¸"
 },
 {
 "English": "direction",
-"Chinese": "¤è¦V"
+"Chinese": "æ–¹å‘"
 },
 {
 "English": "balloon",
-"Chinese": "®ğ²y"
+"Chinese": "æ°£çƒ"
 },
 {
 "English": "weave",
-"Chinese": "¨Ï¥æÂ´"
+"Chinese": "ä½¿äº¤ç¹”"
 },
 {
 "English": "devote",
-"Chinese": "±N...±M¥Î©ó"
+"Chinese": "å°‡...å°ˆç”¨æ–¼"
 },
 {
 "English": "communication",
-"Chinese": "·¾³q"
+"Chinese": "æºé€š"
 },
 {
 "English": "couple",
-"Chinese": "±¡«Q"
+"Chinese": "æƒ…ä¾¶"
 },
 {
 "English": "daily",
-"Chinese": "¨C¤Ñªº"
+"Chinese": "æ¯å¤©çš„"
 },
 {
 "English": "role",
-"Chinese": "Â¾³d"
+"Chinese": "è·è²¬"
 },
 {
 "English": "ordinary",
-"Chinese": "¥­¤Zªº"
+"Chinese": "å¹³å‡¡çš„"
 },
 {
 "English": "birth",
-"Chinese": "¥X¥Í"
+"Chinese": "å‡ºç”Ÿ"
 },
 {
 "English": "accept",
-"Chinese": "±µ¨ü"
+"Chinese": "æ¥å—"
 },
 {
 "English": "shoot",
-"Chinese": "¼Q®g"
+"Chinese": "å™´å°„"
 },
 {
 "English": "force",
-"Chinese": "¤O¶q"
+"Chinese": "åŠ›é‡"
 },
 {
 "English": "afterwards",
-"Chinese": "¤§«á"
+"Chinese": "ä¹‹å¾Œ"
 },
 {
 "English": "return",
-"Chinese": "¦^¨Ó"
+"Chinese": "å›ä¾†"
 },
 {
 "English": "difficulty",
-"Chinese": "§xÃø"
+"Chinese": "å›°é›£"
 },
 {
 "English": "adult",
-"Chinese": "¦¨¦~¤H"
+"Chinese": "æˆå¹´äºº"
 },
 {
 "English": "assure",
-"Chinese": "¦V...«OÃÒ"
+"Chinese": "å‘...ä¿è­‰"
 },
 {
 "English": "destroy",
-"Chinese": "¯}Ãa"
+"Chinese": "ç ´å£"
 },
 {
 "English": "reliable",
-"Chinese": "¥i¾aªº"
+"Chinese": "å¯é çš„"
 },
 {
 "English": "search",
-"Chinese": "·j´M"
+"Chinese": "æœå°‹"
 },
 {
 "English": "clue",
-"Chinese": "½u¯Á"
+"Chinese": "ç·šç´¢"
 },
 {
 "English": "obtain",
-"Chinese": "Àò±o"
+"Chinese": "ç²å¾—"
 },
 {
 "English": "witness",
-"Chinese": "¥ØÀ»ªÌ"
+"Chinese": "ç›®æ“Šè€…"
 },
 {
 "English": "figure out",
-"Chinese": "§Ë²M·¡"
+"Chinese": "å¼„æ¸…æ¥š"
 },
 {
 "English": "reconstruct",
-"Chinese": "­««Ø"
+"Chinese": "é‡å»º"
 },
 {
 "English": "court",
-"Chinese": "ªk®x"
+"Chinese": "æ³•åº­"
 },
 {
 "English": "defend",
-"Chinese": "¨¾¿m"
+"Chinese": "é˜²ç¦¦"
 },
 {
 "English": "convince",
-"Chinese": "¨Ï¬Û«H"
+"Chinese": "ä½¿ç›¸ä¿¡"
 },
 {
 "English": "aid",
-"Chinese": "À°§U"
+"Chinese": "å¹«åŠ©"
 },
 {
 "English": "latest",
-"Chinese": "³Ìªñªº"
+"Chinese": "æœ€è¿‘çš„"
 },
 {
 "English": "reasonable",
-"Chinese": "¦X²zªº"
+"Chinese": "åˆç†çš„"
 },
 {
 "English": "doubt",
-"Chinese": "ÃhºÃ"
+"Chinese": "æ‡·ç–‘"
 },
 {
 "English": "assign",
-"Chinese": "«ü¬£"
+"Chinese": "æŒ‡æ´¾"
 },
 {
 "English": "aim",
-"Chinese": "·N±ı"
+"Chinese": "æ„æ¬²"
 },
 {
 "English": "angle",
-"Chinese": "¨¤«×"
+"Chinese": "è§’åº¦"
 },
 {
 "English": "fate",
-"Chinese": "©R¹B"
+"Chinese": "å‘½é‹"
 },
 {
 "English": "innocent",
-"Chinese": "µL¸oªº"
+"Chinese": "ç„¡ç½ªçš„"
 },
 {
 "English": "prison",
-"Chinese": "ºÊº»"
+"Chinese": "ç›£ç„"
 },
 {
 "English": "criminal",
-"Chinese": "¸o¥Ç"
+"Chinese": "ç½ªçŠ¯"
 },
 {
 "English": "prominent",
-"Chinese": "³Ç¥Xªº"
+"Chinese": "å‚‘å‡ºçš„"
 },
 {
 "English": "award",
-"Chinese": "±Â»P"
+"Chinese": "æˆèˆ‡"
 },
 {
 "English": "fictinoal",
-"Chinese": "µêºcªº"
+"Chinese": "è™›æ§‹çš„"
 },
 {
 "English": "mayor",
-"Chinese": "¥«ªø"
+"Chinese": "å¸‚é•·"
 },
 {
 "English": "responsible",
-"Chinese": "­t³d¥ôªº"
+"Chinese": "è² è²¬ä»»çš„"
 },
 {
 "English": "fund",
-"Chinese": "¸êª÷"
+"Chinese": "è³‡é‡‘"
 },
 {
 "English": "publicity",
-"Chinese": "Ãöª`"
+"Chinese": "é—œæ³¨"
 },
 {
 "English": "require",
-"Chinese": "­n¨D"
+"Chinese": "è¦æ±‚"
 },
 {
 "English": "receiver",
-"Chinese": "±µ¨üªÌ"
+"Chinese": "æ¥å—è€…"
 },
 {
 "English": "reveal",
-"Chinese": "Åã¥Ü"
+"Chinese": "é¡¯ç¤º"
 },
 {
 "English": "honoree",
-"Chinese": "±o¼úªÌ"
+"Chinese": "å¾—çè€…"
 },
 {
 "English": "exposure",
-"Chinese": "«Å¶Ç"
+"Chinese": "å®£å‚³"
 },
 {
 "English": "promptly",
-"Chinese": "¥ß§Y"
+"Chinese": "ç«‹å³"
 },
 {
 "English": "look for",
-"Chinese": "´M§ä"
+"Chinese": "å°‹æ‰¾"
 },
 {
 "English": "various",
-"Chinese": "¤£¦Pªº"
+"Chinese": "ä¸åŒçš„"
 },
 {
 "English": "individual",
-"Chinese": "­Ó¤H"
+"Chinese": "å€‹äºº"
 },
 {
 "English": "label",
-"Chinese": "µ¹...¶K¼ĞÅÒ"
+"Chinese": "çµ¦...è²¼æ¨™ç±¤"
 },
 {
 "English": "steal",
-"Chinese": "°½ÅÑ"
+"Chinese": "å·ç«Š"
 },
 {
 "English": "despite",
-"Chinese": "¾¨ºŞ"
+"Chinese": "å„˜ç®¡"
 }
 ];
    let currentQuestion = 0;
@@ -2640,14 +2640,14 @@
      const nextButton = document.getElementById('next-button');
 
      if (userInput.trim() == correctAnswer.trim()) {
-       resultElement.textContent = '¥¿½T¡I';
-       nextButton.style.display = 'block'; // Åã¥Ü¤U¤@ÃD«ö¶s
+       resultElement.textContent = 'æ­£ç¢ºï¼';
+       nextButton.style.display = 'block'; // é¡¯ç¤ºä¸‹ä¸€é¡ŒæŒ‰éˆ•
        correctCount++;
         document.getElementById('correct-count').textContent = correctCount;
      } else {
-       resultElement.textContent = '¿ù»~¡A¥¿½Tµª®×¬O : ' + correctAnswer;
+       resultElement.textContent = 'éŒ¯èª¤ï¼Œæ­£ç¢ºç­”æ¡ˆæ˜¯ : ' + correctAnswer;
        
-       nextButton.style.display = 'block'; // Åã¥Ü¤U¤@ÃD«ö¶s
+       nextButton.style.display = 'block'; // é¡¯ç¤ºä¸‹ä¸€é¡ŒæŒ‰éˆ•
        wrongCount++;
        document.getElementById('wrong-count').textContent = wrongCount;
      }

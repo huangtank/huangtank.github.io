@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<head>
+    <title>我愛妳</title>
+    <style>
+        body {
+            background-color : rgb(255, 208, 216);
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%; 
+            max-width: 1000px; 
+        }
+        #mainImage {
+            width: 100%; 
+            max-width: 100px; 
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 6vw; /* 字体大小根据视口宽度变化 */
+            color: #68495b;
+            margin: 20px 0; /* 增加上下间距 */
+        }
+        #button {
+            font-size: 4vw; /* 字体大小根据视口宽度变化 */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s ease-out; /* 平滑過渡 */
+        }
+
+        #yes {
+            background-color: #d4818e; /* 粉色 */
+            color: white;
+        }
+
+        #no {
+            background-color: #6784b1; /* 蓝色 */
+            color: white;
+            position: relative;
+        }
+
+        .yes-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffdae0; /* 粉色 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .yes-text {
+            font-size: 7vw; /* 字体大小根据视口宽度变化 */
+        }
+
+        .yes-image {
+            width: 50%; /* 图片宽度自适应容器 */
+            max-width: 300px; /* 最大宽度限制 */
+        }
+
+        /* 电脑端样式优化 */
+        @media (min-width: 768px) {
+            body {
+                display: block;
+            }
+
+            .container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: auto;
+                max-width: none;
+            }
+
+            #mainImage {
+                width: 200px; /* 固定图片宽度 */
+            }
+
+            h1 {
+                font-size: 28px; /* 固定字体大小 */
+                margin: 20px 0;
+            }
+
+            button {
+                font-size: 18px; /* 固定字体大小 */
+            }
+
+            .yes-text {
+                font-size: 36px; /* 固定字体大小 */
+            }
+
+            .yes-image {
+                width: 300px; /* 固定图片宽度 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="mainImage" src="images/pikachu.png">
+        <h1>妳喜歡皮卡丘嗎</h1>
+        <div class="buttons">
+            <button id="yes">喜歡</button>
+            <button id="no">不喜歡</button>
+        </div>
+    </div>
+    <script>
+        const button = document.getElementById("no");
+        let yesButton = document.getElementById("yes");
+        document.addEventListener("mousemove", (event) => {
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            const btnRect = button.getBoundingClientRect();
+
+            const btnX = btnRect.left + btnRect.width / 2;
+            const btnY = btnRect.top + btnRect.height / 2;
+
+            const distance = Math.sqrt((mouseX - btnX) ** 2 + (mouseY - btnY) ** 2);
+
+            if (distance < 100) { // 滑鼠距離小於 100px 就讓按鈕移動
+                const moveX = (btnX - mouseX) / distance * 100; // 反方向移動 50px
+                const moveY = (btnY - mouseY) / distance * 100;
+
+                button.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+        yesButton.addEventListener("click", function() {
+        document.body.innerHTML = `
+            <div class="yes-screen">
+                <h1 class="yes-text">!!!我愛妳!! ( >᎑<)♡︎ᐝ</h1>
+            </div>
+        `;
+
+        document.body.style.overflow = "hidden";
+        });
+    </script>
+</body>
+</html>

@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¬q¦Ò­^¤åÃD®w</title>
+  <title>æ®µè€ƒè‹±æ–‡é¡Œåº«</title>
   <style>
     #counter {
         color: grey;
-        font-size: 1.2em; /* ½Õ¾ã«ö¶s¡Bµ²ªG©M­p¼Æ¾¹¦rÅé¤j¤p */
-        margin-top: 10px; /* ½Õ¾ã«ö¶s¡Bµ²ªG©M­p¼Æ¾¹¤§¶¡ªº¶¡¶Z */
+        font-size: 1.2em; /* èª¿æ•´æŒ‰éˆ•ã€çµæœå’Œè¨ˆæ•¸å™¨å­—é«”å¤§å° */
+        margin-top: 10px; /* èª¿æ•´æŒ‰éˆ•ã€çµæœå’Œè¨ˆæ•¸å™¨ä¹‹é–“çš„é–“è· */
       }
       
     * {
@@ -66,97 +66,97 @@
 <body>
     
   <div id="question-container">
-    <button id="rero-button" onclick="location.href='https://www.youtube.com/shorts/ew1Yf0afTSs';">«É³Ó¸Ô¸Ñ</button>
-    <div id="counter">·í«eÃD¼Æ: <span id="current-question">0</span> µª¹ïÃD¥Ø¼Æ: <span id="correct-count">0</span> µª¿ùÃD¥Ø¼Æ: <span id="wrong-count">0</span> ¥¿½T²v: <span id="accuracy">0%</span></div>
+    <button id="rero-button" onclick="location.href='https://www.youtube.com/shorts/ew1Yf0afTSs';">å®¥å‹è©³è§£</button>
+    <div id="counter">ç•¶å‰é¡Œæ•¸: <span id="current-question">0</span> ç­”å°é¡Œç›®æ•¸: <span id="correct-count">0</span> ç­”éŒ¯é¡Œç›®æ•¸: <span id="wrong-count">0</span> æ­£ç¢ºç‡: <span id="accuracy">0%</span></div>
     <h1 id="chinese-word"></h1>
-    <input type="text" id="user-input" placeholder="½Ğ¿é¤Jµª®×" onkeydown="checkOnEnter(event)">
+    <input type="text" id="user-input" placeholder="è«‹è¼¸å…¥ç­”æ¡ˆ" onkeydown="checkOnEnter(event)">
     <br>
-    <button id="check-button" onclick="checkAnswer()">ÀË¬dµª®×</button>
+    <button id="check-button" onclick="checkAnswer()">æª¢æŸ¥ç­”æ¡ˆ</button>
     <h1 id="result"></h1>
-    <button id="next-button" style="display: none;" onclick="nextQuestion()">¤U¤@ÃD</button>
+    <button id="next-button" style="display: none;" onclick="nextQuestion()">ä¸‹ä¸€é¡Œ</button>
     <br><br><br><br><br>
-    <button id="rero-button" onclick="location.href='index.html';">ªğ¦^</button>
+    <button id="rero-button" onclick="location.href='index.html';">è¿”å›</button>
     
   </div>
 
   <script>
-    // ª½±µ±N JSON ¸ê®Æ´O¤J¨ì JavaScript ¤¤
+    // ç›´æ¥å°‡ JSON è³‡æ–™åµŒå…¥åˆ° JavaScript ä¸­
     const jsonData = [
     {
      "English": "individual",
-     "Chinese": "adj. ­Ó§Oªº"
+     "Chinese": "adj. å€‹åˆ¥çš„"
     },
     {
      "English": "individual",
-     "Chinese": "n. ­Ó¤Hªº"
+     "Chinese": "n. å€‹äººçš„"
     },
     {
      "English": "record",
-     "Chinese": "v ¿ı¼v"
+     "Chinese": "v éŒ„å½±"
     },
     {
      "English": "record",
-     "Chinese": "n. ¬ö¿ı"
+     "Chinese": "n. ç´€éŒ„"
     },
     {
      "English": "rearrange",
-     "Chinese": "v ­«·s¦w±Æ"
+     "Chinese": "v é‡æ–°å®‰æ’"
     },
     {
      "English": "arrange",
-     "Chinese": "v. ¦w±Æ"
+     "Chinese": "v. å®‰æ’"
     },
     {
      "English": "seize",
-     "Chinese": "v. §â´¤"
+     "Chinese": "v. æŠŠæ¡"
     },
     {
      "English": "intensive",
-     "Chinese": "adj. ±K¶°ªº"
+     "Chinese": "adj. å¯†é›†çš„"
     },
     {
      "English": "typical",
-     "Chinese": "adj. ¨å«¬ªº"
+     "Chinese": "adj. å…¸å‹çš„"
     },
     {
      "English": "routine",
-     "Chinese": "n. ¨Ò¦æ¤½¨Æ"
+     "Chinese": "n. ä¾‹è¡Œå…¬äº‹"
     },
     {
      "English": "professional",
-     "Chinese": "adj. Â¾·~ªº"
+     "Chinese": "adj. è·æ¥­çš„"
     },
     {
      "English": "eletronic",
-     "Chinese": "adj. ¹q¤lªº"
+     "Chinese": "adj. é›»å­çš„"
     },
     {
      "English": "advance",
-     "Chinese": "v. ¶i¨B"
+     "Chinese": "v. é€²æ­¥"
     },
     {
      "English": "advance",
-     "Chinese": "n. ¶i¨B"
+     "Chinese": "n. é€²æ­¥"
     },
     {
      "English": "sufficient",
-     "Chinese": "adj. ¨¬°÷ªº"
+     "Chinese": "adj. è¶³å¤ çš„"
     },
     {
      "English": "equipment",
-     "Chinese": "n. ³]³Æ"
+     "Chinese": "n. è¨­å‚™"
     },
     {
      "English": "ideal",
-     "Chinese": "adj. ²z·Qªº"
+     "Chinese": "adj. ç†æƒ³çš„"
     },
     {
      "English": "broadcast",
-     "Chinese": "v. ¼½°e"
+     "Chinese": "v. æ’­é€"
     },
     {
      "English": "broadcast",
-     "Chinese": "n. ¸`¥Ø"
+     "Chinese": "n. ç¯€ç›®"
     },
    ];
    let currentQuestion = 0;
@@ -206,14 +206,14 @@
      const nextButton = document.getElementById('next-button');
 
      if (userInput.trim() == correctAnswer.trim()) {
-       resultElement.textContent = '¥¿½T¡I';
-       nextButton.style.display = 'block'; // Åã¥Ü¤U¤@ÃD«ö¶s
+       resultElement.textContent = 'æ­£ç¢ºï¼';
+       nextButton.style.display = 'block'; // é¡¯ç¤ºä¸‹ä¸€é¡ŒæŒ‰éˆ•
        correctCount++;
         document.getElementById('correct-count').textContent = correctCount;
      } else {
-       resultElement.textContent = '¿ù»~¡A¥¿½Tµª®×¬O : ' + correctAnswer;
+       resultElement.textContent = 'éŒ¯èª¤ï¼Œæ­£ç¢ºç­”æ¡ˆæ˜¯ : ' + correctAnswer;
        
-       nextButton.style.display = 'block'; // Åã¥Ü¤U¤@ÃD«ö¶s
+       nextButton.style.display = 'block'; // é¡¯ç¤ºä¸‹ä¸€é¡ŒæŒ‰éˆ•
        wrongCount++;
        document.getElementById('wrong-count').textContent = wrongCount;
      }
