@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>å€’æ•¸çµ±æ¸¬è¨ˆæ™‚å™¨</title>
+        <title>­Ë¼Æ²Î´ú­p®É¾¹</title>
         <style type="text/css">
             .times{
                 text-align: left;
@@ -74,42 +74,42 @@
     </head>
     <body>
         <center><div style="width:500px;height:500px">
-        <h1 style="text-align: left;">çµ±æ¸¬é€Ÿå ±ç›£æ¸¬</h1>
+        <h1 style="text-align: left;">²Î´ú³t³øºÊ´ú</h1>
         <div id="countdown" class="times"></div>
-        <div class="div1">è€ƒç§‘ï¼š<br>åœ‹æ–‡ æ•¸å­¸<br>è‹±æ–‡ å°ˆä¸€ å°ˆäºŒ</div>
+        <div class="div1">¦Ò¬ì¡G<br>°ê¤å ¼Æ¾Ç<br>­^¤å ±M¤@ ±M¤G</div>
         <div class="nbsp1"></div>
-        <div class="div2">é ä¼°ç´šæ•¸<br><br>&#8734; ç´š</div>
+        <div class="div2">¹w¦ô¯Å¼Æ<br><br>&#8734; ¯Å</div>
         <div style="width:100%;height:5px;float:left;">&nbsp;</div>
-        <div class="div3">å¯¦éš›æŠµé”æ™‚é–“</div>
+        <div class="div3">¹ê»Ú©è¹F®É¶¡</div>
         <div class="nbsp2"></div>
-        <div class="div4">2025/05/03</div>
+        <div class="div4">2025/04/26</div>
         </div></center>
         <script>
             // set target time
-            const targetDate = new Date('2025-05-03T00:00:00').getTime();
+            const targetDate = new Date('2025-04-26T00:00:00').getTime();
             
             // update time
             function updateCountdown() {
-              // ç•¶å‰æ—¥æœŸ
+              // ·í«e¤é´Á
               const now = new Date().getTime();
               
-              // å‰©é¤˜æ™‚é–“
+              // ³Ñ¾l®É¶¡
               const distance = targetDate - now;
               
-              // ç®—æ™‚é–“
+              // ºâ®É¶¡
               const days = Math.floor(distance / (1000 * 60 * 60 * 24));
               const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
               const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
               const seconds = Math.floor((distance % (1000 * 60)) / 1000);
               
-              // çµæœé¡¯ç¤º
-              document.getElementById('countdown').innerHTML = `${days} å¤© ${hours} æ™‚ ${minutes} åˆ† ${seconds} ç§’`;
+              // µ²ªGÅã¥Ü
+              document.getElementById('countdown').innerHTML = `${days} ¤Ñ ${hours} ®É ${minutes} ¤À ${seconds} ¬í`;
             }
             
-            // åˆå§‹åŒ–
+            // ªì©l¤Æ
             updateCountdown();
             
-            // æ¯ç§’æ›´æ–°å€’æ•¸
+            // ¨C¬í§ó·s­Ë¼Æ
             setInterval(updateCountdown, 1000);
             </script>
     </body>
