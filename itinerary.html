@@ -3,637 +3,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 環島旅程</title>
+    <title>2026 環島戰情室 (自訂導航版)</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #007AFF; /* 蘋果藍 */
-            --bg-body: #F5F5F7;
+            --primary: #007AFF;
+            --success: #34C759;
+            --danger: #FF3B30;
+            --bg-body: #F2F2F7;
             --bg-card: #FFFFFF;
             --text-main: #1D1D1F;
-            --text-sub: #86868B;
-            --success: #34C759;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
             margin: 0;
-            padding: 0;
             background-color: var(--bg-body);
             color: var(--text-main);
             height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* 禁止外層捲動 */
+            overflow: hidden;
         }
 
-        /* --- 頂部標題與進度條 --- */
+        /* 標題區 */
         header {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 12px 20px;
-            border-bottom: 1px solid #E5E5EA;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            flex-shrink: 0;
-        }
-
-        .header-top {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 15px;
+            border-bottom: 1px solid #C6C6C8;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            z-index: 100;
+            flex-shrink: 0;
         }
 
-        h1 { margin: 0; font-size: 1.1rem; font-weight: 800; color: #000; }
+        h1 { margin: 0; font-size: 1rem; font-weight: 800; }
         
-        .reset-btn {
-            font-size: 0.8rem;
-            color: #FF3B30;
-            background: none;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .reset-btn:active { background: #FFE5E5; }
-
-        /* 進度條容器 */
-        .progress-container {
-            height: 6px;
-            background: #E5E5EA;
-            border-radius: 3px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: var(--success);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        
-        .progress-text {
+        .status-badge {
             font-size: 0.75rem;
-            color: var(--text-sub);
-            margin-top: 4px;
-            text-align: right;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: #E5E5EA;
+            color: #888;
+            transition: all 0.3s;
         }
+        .status-badge.online { background: #D1F2D8; color: #007D30; }
 
-        /* --- 主要版面配置 --- */
-        .main-container {
+        /* 主容器 */
+        .container {
             display: flex;
             flex: 1;
-            height: calc(100% - 70px); /* 扣除 header 高度 */
-            flex-direction: row; /* 電腦版：左行程，右地圖 */
-        }
-
-        /* 左側：行程列表 */
-        .itinerary-panel {
-            flex: 1;
-            min-width: 350px;
-            max-width: 500px;
-            overflow-y: auto;
-            padding: 20px;
-            -webkit-overflow-scrolling: touch;
-            border-right: 1px solid #D1D1D6;
-            background: var(--bg-body);
-        }
-
-        /* 右側：地圖 */
-        .map-panel {
-            flex: 2;
+            height: calc(100% - 60px);
             position: relative;
         }
 
-        #map {
-            height: 100%;
-            width: 100%;
-            z-index: 1;
+        /* 左側行程表 */
+        .itinerary-panel {
+            flex: 1;
+            min-width: 360px;
+            overflow-y: auto;
+            padding: 15px;
+            border-right: 1px solid #D1D1D6;
+            background: var(--bg-body);
+            padding-bottom: 80px;
         }
 
-        /* --- 行程卡片設計 --- */
-        .day-group {
-            margin-bottom: 30px;
+        /* 右側地圖 */
+        .map-panel {
+            flex: 1.5;
+            position: relative;
+        }
+        #map { height: 100%; width: 100%; }
+
+        /* 手機版 RWD */
+        @media (max-width: 768px) {
+            .container { flex-direction: column-reverse; }
+            .map-panel { flex: none; height: 35vh; }
+            .itinerary-panel { border-right: none; }
         }
 
+        /* 行程區塊 */
+        .day-section { margin-bottom: 25px; }
+        
         .day-header {
             position: sticky;
             top: 0;
             background: var(--bg-body);
-            padding: 10px 0;
-            margin-bottom: 10px;
-            z-index: 10;
-            display: flex;
-            align-items: baseline;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s;
-        }
-        
-        .itinerary-panel.scrolled .day-header {
-             /* 當標題黏住時可以加點效果 */
-        }
-
-        .day-num {
-            font-size: 1.2rem;
+            padding: 10px 5px;
             font-weight: 800;
             color: var(--primary);
-            margin-right: 10px;
-        }
-        
-        .day-date {
-            font-size: 0.9rem;
-            color: var(--text-sub);
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid transparent;
         }
 
-        .stop-card {
+        /* 景點卡片 */
+        .stop-list { min-height: 20px; }
+        
+        .card {
             background: var(--bg-card);
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             display: flex;
             align-items: center;
             gap: 12px;
-            transition: transform 0.1s, background 0.2s;
-            border: 1px solid transparent;
-        }
-
-        /* 打卡後的樣式 */
-        .stop-card.checked {
-            background: #EFEFF4;
-            border-color: #E5E5EA;
-        }
-
-        .stop-card.checked .stop-info {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
-
-        /* 打卡圓圈 Checkbox */
-        .checkbox-wrapper {
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
             position: relative;
+            touch-action: manipulation;
         }
+        
+        /* 拖曳樣式 */
+        .sortable-ghost { opacity: 0.4; background: #E5E5EA; }
+        .sortable-drag { background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transform: scale(1.02); }
 
-        .custom-checkbox {
-            width: 100%;
-            height: 100%;
+        /* 打卡樣式 */
+        .card.checked { background: #E8F5E9; border: 1px solid #C8E6C9; }
+        .card.checked .name { text-decoration: line-through; color: #888; }
+
+        .check-circle {
+            width: 28px; height: 28px;
             border: 2px solid #C7C7CC;
             border-radius: 50%;
-            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
             background: white;
         }
-
-        .stop-card.checked .custom-checkbox {
+        .card.checked .check-circle {
             background: var(--success);
             border-color: var(--success);
-            transform: scale(1.1);
-        }
-
-        .custom-checkbox::after {
-            content: '';
-            width: 6px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg) scale(0);
-            position: absolute;
-            top: 4px;
-            transition: transform 0.2s;
-        }
-
-        .stop-card.checked .custom-checkbox::after {
-            transform: rotate(45deg) scale(1);
-        }
-
-        /* 景點資訊 */
-        .stop-info {
-            flex: 1;
-            cursor: pointer; /* 點文字也能打卡 */
-        }
-
-        .stop-time {
-            font-size: 0.85rem;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .stop-name {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--text-main);
-        }
-
-        .tag {
-            display: inline-block;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            background: #FF9500;
             color: white;
-            border-radius: 4px;
-            margin-left: 6px;
-            vertical-align: middle;
         }
+        .check-circle svg { width: 16px; height: 16px; fill: white; display: none; }
+        .card.checked .check-circle svg { display: block; }
 
-        /* 導航按鈕 */
-        .nav-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: #F2F2F7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: var(--primary);
-            transition: background 0.2s;
-            flex-shrink: 0;
-        }
+        .info { flex: 1; cursor: pointer; user-select: none; }
+        .time { font-size: 0.8rem; color: var(--primary); font-weight: bold; }
+        .name { font-size: 1rem; font-weight: 500; margin-top: 2px; }
+        .nav-hint { font-size: 0.7rem; color: #999; margin-top: 2px; }
 
-        .nav-btn:active {
-            background: #D1D1D6;
-        }
+        /* 按鈕區 */
+        .actions { display: flex; gap: 8px; align-items: center; }
 
-        .nav-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-
-        /* 定位按鈕 */
-        .locate-btn {
-            position: absolute;
-            bottom: 24px;
-            right: 20px;
-            background: var(--bg-card);
-            padding: 12px 20px;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            font-weight: 600;
-            color: var(--primary);
+        .icon-btn {
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
             border: none;
+            background: #F2F2F7;
+            color: #666;
             cursor: pointer;
-            z-index: 400;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.1s;
+            text-decoration: none;
         }
-        .locate-btn:active { transform: scale(0.95); }
+        .icon-btn.nav { color: var(--primary); background: #EAF2FF; }
+        .icon-btn.del { color: var(--danger); background: #FFF0F0; }
+        
+        .add-btn {
+            width: 100%; padding: 10px; border: 2px dashed #C7C7CC;
+            background: none; border-radius: 12px; color: #888;
+            font-weight: bold; cursor: pointer; margin-top: 5px;
+        }
+        .add-btn:active { background: #E5E5EA; }
 
-        /* --- 手機版 RWD (直向) --- */
-        @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column-reverse; /* 地圖在上面，行程在下面 */
-            }
-            
-            .map-panel {
-                flex: none;
-                height: 35vh; /* 地圖佔畫面 35% */
-                position: sticky;
-                top: 0;
-                z-index: 50; /* 確保地圖在行程上面 */
-            }
-
-            .itinerary-panel {
-                max-width: 100%;
-                border-right: none;
-                padding: 15px;
-                flex: 1;
-            }
-
-            .stop-card {
-                padding: 12px;
-            }
+        .locate-btn {
+            position: absolute; bottom: 20px; right: 20px;
+            background: white; padding: 10px 16px; border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-weight: bold; color: var(--primary); border: none;
+            cursor: pointer; z-index: 500; display: flex; align-items: center; gap: 6px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-top">
-            <h1>環島之旅 2026</h1>
-            <button class="reset-btn" onclick="resetAll()">重置紀錄</button>
-        </div>
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="progress-text" id="progressText">進度：0%</div>
-    </header>
+<header>
+    <h1>環島戰情室 2026</h1>
+    <div id="status" class="status-badge">連線中...</div>
+</header>
 
-    <div class="main-container">
-        <div class="itinerary-panel" id="itineraryList">
-            </div>
-
-        <div class="map-panel">
-            <div id="map"></div>
-            <button class="locate-btn" onclick="locateUser()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" stroke="none"></polygon>
-                </svg>
-                我的位置
-            </button>
-        </div>
+<div class="container">
+    <div class="itinerary-panel" id="itineraryList"></div>
+    <div class="map-panel">
+        <div id="map"></div>
+        <button class="locate-btn" onclick="locateUser()">📍 我的位置</button>
     </div>
+</div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // --- 1. 行程資料 (包含完整景點) ---
-        const itineraryData = [
-            {
-                day: "Day 1",
-                date: "1/19 (一)",
-                stops: [
-                    { time: "08:00", name: "新竹竹蓮寺", tag: "起點" },
-                    { time: "09:40", name: "忠貞新村文化園區" },
-                    { time: "14:20", name: "富貴角燈塔", tag: "極北" },
-                    { time: "17:00", name: "跳石海岸" },
-                    { time: "18:40", name: "野柳地質公園" },
-                    { time: "20:20", name: "台北101" },
-                    { time: "21:35", name: "Qtime 忠孝店" }
-                ]
-            },
-            {
-                day: "Day 2",
-                date: "1/20 (二)",
-                stops: [
-                    { time: "08:30", name: "Qtime 忠孝店", tag: "出發" },
-                    { time: "09:34", name: "基隆海洋廣場" },
-                    { time: "10:54", name: "三貂角燈塔", tag: "極東" },
-                    { time: "13:34", name: "空氣島彈跳工廠" },
-                    { time: "17:44", name: "南方澳情人灣" },
-                    { time: "19:54", name: "露境公社背包客棧" },
-                    { time: "21:12", name: "咔哇衣投幣洗衣店" }
-                ]
-            },
-            {
-                day: "Day 3",
-                date: "1/21 (三)",
-                stops: [
-                    { time: "08:00", name: "露境公社背包客棧" },
-                    { time: "10:44", name: "太魯閣國家公園" },
-                    { time: "14:08", name: "七星潭海岸風景特定區" },
-                    { time: "15:53", name: "夏舞民宿" }
-                ]
-            },
-            {
-                day: "Day 4",
-                date: "1/22 (四)",
-                stops: [
-                    { time: "10:02", name: "新社梯田" },
-                    { time: "11:25", name: "石梯坪" },
-                    { time: "11:37", name: "北迴歸線標碑" },
-                    { time: "12:51", name: "三仙台" },
-                    { time: "16:11", name: "台東鐵道藝術村" },
-                    { time: "17:23", name: "茶樂二重奏" }
-                ]
-            },
-            {
-                day: "Day 5",
-                date: "1/23 (五)",
-                stops: [
-                    { time: "09:38", name: "華源觀景台-天空之鏡" },
-                    { time: "11:18", name: "多良觀光車站" },
-                    { time: "12:53", name: "9420濱海公園" },
-                    { time: "14:03", name: "大武之心南迴驛" },
-                    { time: "15:38", name: "壽卡鐵馬驛站" },
-                    { time: "17:18", name: "旭海美景" },
-                    { time: "19:03", name: "鵝鑾鼻燈塔", tag: "極南" },
-                    { time: "20:08", name: "車城福安旅館" }
-                ]
-            },
-            {
-                day: "Day 6",
-                date: "1/24 (六)",
-                stops: [
-                    { time: "10:31", name: "草衙道創藝基地" },
-                    { time: "15:47", name: "高雄85大樓" },
-                    { time: "17:18", name: "駁二藝術特區" },
-                    { time: "18:43", name: "高雄住的地方" }
-                ]
-            },
-            {
-                day: "Day 7",
-                date: "1/25 (日)",
-                stops: [
-                    { time: "12:50", name: "神農街" },
-                    { time: "14:30", name: "國聖燈塔", tag: "極西" },
-                    { time: "16:10", name: "井仔腳瓦盤鹽田" },
-                    { time: "18:25", name: "高跟鞋教堂" },
-                    { time: "19:26", name: "光影民宿" }
-                ]
-            },
-            {
-                day: "Day 8",
-                date: "1/26 (一)",
-                stops: [
-                    { time: "09:08", name: "北回歸線太陽館" },
-                    { time: "10:22", name: "民主火雞肉飯" },
-                    { time: "11:46", name: "星巴克 嘉義民雄門市" },
-                    { time: "12:47", name: "虎尾鐵橋" },
-                    { time: "14:14", name: "西螺大橋" },
-                    { time: "15:18", name: "延平老街" },
-                    { time: "16:40", name: "漯河民宿" }
-                ]
-            },
-            {
-                day: "Day 9",
-                date: "1/27 (二)",
-                stops: [
-                    { time: "10:12", name: "落羽松森林" },
-                    { time: "14:13", name: "日月潭" },
-                    { time: "17:23", name: "銀河鐵道望景餐廳" },
-                    { time: "19:53", name: "轉角秘密基地" },
-                    { time: "21:58", name: "國立臺中科技大學" }
-                ]
-            },
-            {
-                day: "Day 10",
-                date: "1/28 (三)",
-                stops: [
-                    { time: "08:00", name: "國立臺中科技大學" },
-                    { time: "09:27", name: "回到新竹" }
-                ]
-            }
-        ];
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-        // --- 2. 系統邏輯：打卡儲存與讀取 ---
-        const STORAGE_KEY = 'trip_2026_checkins_v1';
-        
-        // 讀取紀錄 (若無則回傳空物件)
-        function loadCheckins() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            return saved ? JSON.parse(saved) : {};
-        }
+<script>
+    // --- 1. Firebase 設定 (已填入您的 API) ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyBlj4t6u7d_J41OIlaWboZQeX2KcoaXDSQ",
+        authDomain: "trip2026-29103.firebaseapp.com",
+        databaseURL: "https://trip2026-29103-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        projectId: "trip2026-29103",
+        storageBucket: "trip2026-29103.firebasestorage.app",
+        messagingSenderId: "118262008794",
+        appId: "1:118262008794:web:f89092f3d27bc9c544cee3",
+        measurementId: "G-X1XHE61V0C"
+    };
 
-        // 儲存紀錄
-        function saveCheckins(data) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        }
+    // --- 2. 初始資料 (只在資料庫為空時寫入一次) ---
+    const INITIAL_DATA = [
+        { day: "第 1 天 (1/19)", stops: [
+            { t: "08:00", n: "新竹竹蓮寺", lat: 24.798, lng: 120.970, c: false},
+            { t: "09:40", n: "忠貞新村文化園區", c: false },
+            { t: "14:20", n: "富貴角燈塔", lat: 25.298, lng: 121.536, c: false },
+            { t: "17:00", n: "跳石海岸", c: false },
+            { t: "18:40", n: "野柳地質公園", c: false },
+            { t: "20:20", n: "台北101", c: false },
+            { t: "21:35", n: "Qtime 忠孝店", c: false }
+        ]},
+        { day: "第 2 天 (1/20)", stops: [
+            { t: "09:34", n: "基隆海洋廣場", c: false },
+            { t: "10:54", n: "三貂角燈塔", lat: 25.007, lng: 122.001, c: false },
+            { t: "13:34", n: "空氣島彈跳工廠", c: false },
+            { t: "17:44", n: "南方澳情人灣", c: false },
+            { t: "19:54", n: "露境公社背包客棧", c: false }
+        ]},
+        { day: "第 3 天 (1/21)", stops: [
+            { t: "10:44", n: "太魯閣國家公園", lat: 24.151, lng: 121.624, c: false },
+            { t: "14:08", n: "七星潭", c: false },
+            { t: "15:53", n: "夏舞民宿", c: false }
+        ]},
+        { day: "第 4 天 (1/22)", stops: [
+            { t: "10:02", n: "新社梯田", c: false },
+            { t: "11:25", n: "石梯坪", c: false },
+            { t: "11:37", n: "北迴歸線標碑", c: false },
+            { t: "12:51", n: "三仙台", lat: 23.126, lng: 121.421, c: false },
+            { t: "16:11", n: "台東鐵道藝術村", c: false },
+            { t: "17:23", n: "茶樂二重奏", c: false }
+        ]},
+        { day: "第 5 天 (1/23)", stops: [
+            { t: "09:38", n: "華源觀景台", c: false },
+            { t: "11:18", n: "多良觀光車站", c: false },
+            { t: "12:53", n: "9420濱海公園", c: false },
+            { t: "14:03", n: "大武之心南迴驛", c: false },
+            { t: "15:38", n: "壽卡鐵馬驛站", c: false },
+            { t: "17:18", n: "旭海美景", c: false },
+            { t: "19:03", n: "鵝鑾鼻燈塔", lat: 21.902, lng: 120.852, c: false },
+            { t: "20:08", n: "車城福安旅館", c: false }
+        ]},
+        { day: "第 6 天 (1/24)", stops: [
+            { t: "10:31", n: "草衙道創藝基地", c: false },
+            { t: "15:47", n: "高雄85大樓", lat: 22.611, lng: 120.300, c: false },
+            { t: "17:18", n: "駁二藝術特區", c: false },
+            { t: "18:43", n: "高雄住宿", c: false }
+        ]},
+        { day: "第 7 天 (1/25)", stops: [
+            { t: "12:50", n: "神農街", c: false },
+            { t: "14:30", n: "國聖燈塔", lat: 23.100, lng: 120.036, c: false },
+            { t: "16:10", n: "井仔腳瓦盤鹽田", c: false },
+            { t: "18:25", n: "高跟鞋教堂", c: false },
+            { t: "19:26", n: "光影民宿", c: false }
+        ]},
+        { day: "第 8 天 (1/26)", stops: [
+            { t: "09:08", n: "北回歸線太陽館", c: false },
+            { t: "10:22", n: "民主火雞肉飯", c: false },
+            { t: "12:47", n: "虎尾鐵橋", c: false },
+            { t: "16:40", n: "漯河民宿", c: false }
+        ]},
+        { day: "第 9 天 (1/27)", stops: [
+            { t: "10:12", n: "落羽松森林", c: false },
+            { t: "14:13", n: "日月潭", lat: 23.866, lng: 120.916, c: false },
+            { t: "17:23", n: "銀河鐵道望景餐廳", c: false },
+            { t: "19:53", n: "轉角秘密基地", c: false },
+            { t: "21:58", n: "國立臺中科技大學", c: false }
+        ]},
+        { day: "第 10 天 (1/28)", stops: [
+            { t: "08:00", n: "國立臺中科技大學", lat: 24.150, lng: 120.683, c: false },
+            { t: "09:27", n: "回到新竹", c: false }
+        ]}
+    ];
 
-        let checkinState = loadCheckins();
+    let db;
+    let globalData = [];
+    let map, markersLayer;
 
-        // --- 3. 畫面渲染 ---
-        function renderItinerary() {
-            const container = document.getElementById('itineraryList');
-            container.innerHTML = ''; // 清空重繪
+    // --- 3. 初始化 ---
+    function init() {
+        map = L.map('map').setView([23.6, 121], 7);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: 'OpenStreetMap'
+        }).addTo(map);
+        markersLayer = L.layerGroup().addTo(map);
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.database();
             
-            let totalStops = 0;
-            let checkedCount = 0;
-
-            itineraryData.forEach((day, dIndex) => {
-                // 建立日期標題
-                const dayGroup = document.createElement('div');
-                dayGroup.className = 'day-group';
+            const dataRef = db.ref('trip2026_full_data');
+            
+            dataRef.on('value', (snapshot) => {
+                document.getElementById('status').innerText = "● 同步中";
+                document.getElementById('status').classList.add('online');
                 
-                const header = document.createElement('div');
-                header.className = 'day-header';
-                header.innerHTML = `<span class="day-num">${day.day}</span> <span class="day-date">${day.date}</span>`;
-                dayGroup.appendChild(header);
+                const val = snapshot.val();
+                if (!val) {
+                    globalData = INITIAL_DATA;
+                    saveData();
+                } else {
+                    globalData = val;
+                    renderUI();
+                }
+            }, (error) => {
+                document.getElementById('status').innerText = "連線失敗";
+                console.error(error);
+            });
+        } catch (e) {
+            alert("Firebase 連線錯誤，請檢查配置。");
+        }
+    }
 
-                // 建立景點卡片
-                day.stops.forEach((stop, sIndex) => {
-                    const stopId = `d${dIndex}_s${sIndex}`; // 唯一ID
-                    const isChecked = checkinState[stopId] || false;
-                    
-                    totalStops++;
-                    if (isChecked) checkedCount++;
+    function saveData() {
+        db.ref('trip2026_full_data').set(globalData);
+    }
 
-                    // Google 導航連結 (使用 dir 模式直接導航)
-                    const mapLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(stop.name)}`;
+    // --- 4. 渲染畫面 ---
+    function renderUI() {
+        const container = document.getElementById('itineraryList');
+        const scrollPos = container.scrollTop;
+        
+        container.innerHTML = "";
+        markersLayer.clearLayers();
 
+        globalData.forEach((dayData, dayIdx) => {
+            const section = document.createElement('div');
+            section.className = 'day-section';
+            section.innerHTML = `<div class="day-header">${dayData.day}</div>`;
+            
+            const listDiv = document.createElement('div');
+            listDiv.className = 'stop-list';
+            listDiv.dataset.dayIdx = dayIdx;
+
+            if (dayData.stops) {
+                dayData.stops.forEach((stop, stopIdx) => {
                     const card = document.createElement('div');
-                    card.className = `stop-card ${isChecked ? 'checked' : ''}`;
-                    card.onclick = (e) => {
-                        // 如果點到的是導航按鈕，不要觸發打卡
-                        if (e.target.closest('.nav-btn')) return;
-                        toggleCheck(stopId);
-                    };
+                    card.className = `card ${stop.c ? 'checked' : ''}`;
+                    card.dataset.stopIdx = stopIdx;
+                    
+                    // 標記地圖
+                    if (stop.lat && stop.lng) {
+                        L.marker([stop.lat, stop.lng])
+                         .bindPopup(`<b>${stop.n}</b><br>${stop.t}`)
+                         .addTo(markersLayer);
+                    }
+
+                    // 處理導航連結：如果有自訂 navKey 且是網址，直接用；否則用 Google Search
+                    let navUrl = "";
+                    if (stop.navKey && stop.navKey.startsWith("http")) {
+                        navUrl = stop.navKey;
+                    } else {
+                        const query = stop.navKey || stop.n;
+                        navUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+                    }
 
                     card.innerHTML = `
-                        <div class="checkbox-wrapper">
-                            <div class="custom-checkbox"></div>
+                        <div class="check-circle" onclick="toggleCheck(${dayIdx}, ${stopIdx})">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                         </div>
-                        <div class="stop-info">
-                            <div class="stop-time">
-                                ${stop.time}
-                                ${stop.tag ? `<span class="tag">${stop.tag}</span>` : ''}
-                            </div>
-                            <div class="stop-name">${stop.name}</div>
+                        <div class="info" onclick="toggleCheck(${dayIdx}, ${stopIdx})">
+                            <div class="time">${stop.t}</div>
+                            <div class="name">${stop.n}</div>
+                            ${stop.navKey ? `<div class="nav-hint">📍 導航: ${stop.navKey.substring(0,10)}${stop.navKey.length>10?'...':''}</div>` : ''}
                         </div>
-                        <a href="${mapLink}" target="_blank" class="nav-btn" title="Google 導航">
-                            <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path></svg>
-                        </a>
+                        <div class="actions">
+                            <a href="${navUrl}" target="_blank" class="icon-btn nav">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                            </a>
+                            <button class="icon-btn del" onclick="deleteStop(${dayIdx}, ${stopIdx})">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
                     `;
-                    dayGroup.appendChild(card);
+                    listDiv.appendChild(card);
                 });
-                container.appendChild(dayGroup);
-            });
-
-            updateProgress(checkedCount, totalStops);
-        }
-
-        // 更新進度條
-        function updateProgress(checked, total) {
-            const percent = Math.round((checked / total) * 100);
-            document.getElementById('progressBar').style.width = `${percent}%`;
-            document.getElementById('progressText').innerText = `進度：${percent}% (${checked}/${total})`;
-        }
-
-        // 打卡切換功能
-        function toggleCheck(id) {
-            if (checkinState[id]) {
-                delete checkinState[id];
-            } else {
-                checkinState[id] = true;
             }
-            saveCheckins(checkinState); // 立即儲存
-            renderItinerary(); // 重新渲染畫面
-        }
 
-        // 重置所有紀錄
-        function resetAll() {
-            if(confirm("確定要清除所有打卡紀錄嗎？此動作無法復原。")) {
-                checkinState = {};
-                saveCheckins(checkinState);
-                renderItinerary();
-            }
-        }
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-btn';
+            addBtn.innerText = '➕ 新增景點';
+            addBtn.onclick = () => addStop(dayIdx);
 
-        // --- 4. 地圖設定 ---
-        const map = L.map('map', { zoomControl: false }).setView([23.6, 121], 7);
-        
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 20
-        }).addTo(map);
+            section.appendChild(listDiv);
+            section.appendChild(addBtn);
+            container.appendChild(section);
 
-        // 標記重點行程
-        const markers = [
-            {lat: 24.798, lng: 120.970, title: "D1: 新竹竹蓮寺"},
-            {lat: 25.298, lng: 121.536, title: "D1: 富貴角(北)"},
-            {lat: 25.007, lng: 122.001, title: "D2: 三貂角(東)"},
-            {lat: 24.151, lng: 121.624, title: "D3: 太魯閣"},
-            {lat: 23.126, lng: 121.421, title: "D4: 三仙台"},
-            {lat: 21.902, lng: 120.852, title: "D5: 鵝鑾鼻(南)"},
-            {lat: 23.100, lng: 120.036, title: "D7: 國聖燈塔(西)"},
-            {lat: 23.866, lng: 120.916, title: "D9: 日月潭"}
-        ];
-
-        markers.forEach(m => {
-            L.marker([m.lat, m.lng]).addTo(map).bindPopup(m.title);
-        });
-
-        // 定位功能
-        let userMarker = null;
-        function locateUser() {
-            if (!navigator.geolocation) {
-                alert("瀏覽器不支援定位功能");
-                return;
-            }
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    
-                    if (userMarker) {
-                        userMarker.setLatLng([lat, lng]);
-                    } else {
-                        const icon = L.divIcon({
-                            className: 'custom-pin',
-                            html: '<div style="background-color:#007AFF;width:15px;height:15px;border-radius:50%;border:3px solid white;box-shadow:0 0 5px rgba(0,0,0,0.3);"></div>',
-                            iconSize: [21, 21],
-                            iconAnchor: [10, 10]
-                        });
-                        userMarker = L.marker([lat, lng], {icon: icon}).addTo(map);
+            // 拖曳功能
+            new Sortable(listDiv, {
+                animation: 150,
+                delay: 300, 
+                delayOnTouchOnly: true,
+                ghostClass: 'sortable-ghost',
+                onEnd: function (evt) {
+                    const dIdx = evt.target.dataset.dayIdx;
+                    const oldIdx = evt.oldIndex;
+                    const newIdx = evt.newIndex;
+                    if (oldIdx !== newIdx) {
+                        const movedItem = globalData[dIdx].stops.splice(oldIdx, 1)[0];
+                        globalData[dIdx].stops.splice(newIdx, 0, movedItem);
+                        saveData();
                     }
-                    map.setView([lat, lng], 14);
-                },
-                (error) => {
-                    alert("無法取得位置，請確認已開啟定位權限。");
                 }
-            );
+            });
+        });
+        container.scrollTop = scrollPos;
+    }
+
+    // --- 5. 操作功能 ---
+    window.toggleCheck = function(dayIdx, stopIdx) {
+        globalData[dayIdx].stops[stopIdx].c = !globalData[dayIdx].stops[stopIdx].c;
+        saveData();
+    };
+
+    window.addStop = function(dayIdx) {
+        const name = prompt("請輸入景點名稱：");
+        if (!name) return;
+        const time = prompt("請輸入時間 (例如 14:00)：", "12:00");
+        const navKey = prompt("請輸入導航關鍵字或網址 (若留空則搜尋名稱)：", name);
+        
+        if (!globalData[dayIdx].stops) globalData[dayIdx].stops = [];
+        globalData[dayIdx].stops.push({
+            t: time || "",
+            n: name,
+            navKey: navKey || "", // 儲存自訂導航
+            c: false
+        });
+        saveData();
+    };
+
+    window.deleteStop = function(dayIdx, stopIdx) {
+        if(confirm("確定要刪除這個行程嗎？")) {
+            globalData[dayIdx].stops.splice(stopIdx, 1);
+            saveData();
         }
+    };
 
-        // 初始化
-        renderItinerary();
+    window.locateUser = function() {
+        if (!navigator.geolocation) return alert("不支援定位");
+        navigator.geolocation.getCurrentPosition(pos => {
+            const { latitude, longitude } = pos.coords;
+            map.setView([latitude, longitude], 14);
+            L.marker([latitude, longitude], {
+                icon: L.divIcon({
+                    className: 'user-pin',
+                    html: '<div style="background:#007AFF;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 0 10px rgba(0,0,0,0.5)"></div>'
+                })
+            }).addTo(map);
+        }, () => alert("無法取得位置"));
+    }
 
-    </script>
+    init();
+</script>
 </body>
 </html>
