@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 環島旅程</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #007AFF;
+            --secondary: #5AC8FA;
+            --bg-color: #F5F5F7;
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1F;
+            --text-sub: #86868B;
+            --checked-color: #34C759;
+            --border-radius: 16px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* 防止整個頁面捲動 */
+        }
+
+        /* 版面配置：主要容器 */
+        .main-container {
+            display: flex;
+            flex: 1;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 左側：行程列表 */
+        .itinerary-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--bg-color);
+            z-index: 2;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 右側：地圖區域 */
+        .map-panel {
+            flex: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        /* 手機版響應式設計 (直向) */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column-reverse; /* 地圖在上面 (DOM順序) */
+            }
+            .map-panel {
+                flex: none;
+                height: 35vh; /* 手機版地圖高度 */
+                position: sticky;
+                top: 0;
+            }
+            .itinerary-panel {
+                flex: 1;
+                padding: 15px;
+            }
+        }
+
+        /* 標題區 */
+        header {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        h1 { margin: 0; font-size: 1.1rem; font-weight: 700; }
+        .progress-text { font-size: 0.8rem; color: var(--text-sub); }
+
+        /* 行程卡片 */
+        .day-group {
+            margin-bottom: 25px;
+        }
+
+        .day-title {
+            position: sticky;
+            top: 0;
+            background: var(--bg-color);
+            padding: 10px 0;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            z-index: 5;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .day-title span { font-size: 0.85rem; color: var(--text-sub); font-weight: normal; }
+
+        .stop-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .stop-card.checked {
+            background: #F2F2F7;
+            opacity: 0.8;
+        }
+        
+        .stop-card.checked .stop-name {
+            text-decoration: line-through;
+            color: var(--text-sub);
+        }
+
+        /* 打卡按鈕 (Checkbox) */
+        .check-btn {
+            width: 28px;
+            height: 28px;
+            border: 2px solid #C7C7CC;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .check-btn.active {
+            background: var(--checked-color);
+            border-color: var(--checked-color);
+        }
+
+        .check-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+            display: none;
+        }
+
+        .check-btn.active svg { display: block; }
+
+        /* 內容區 */
+        .stop-content {
+            flex: 1;
+        }
+
+        .stop-time {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .stop-name {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* 導航按鈕 */
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            background: #EAF2FF;
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:active { background: #D4E3FF; }
+        .nav-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+        /* 定位按鈕 */
+        .locate-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            border: none;
+            cursor: pointer;
+            z-index: 400;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 清除紀錄按鈕 */
+        .reset-btn {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            background: none;
+            border: none;
+            text-decoration: underline;
+            padding: 0;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>環島之旅 2026</h1>
+            <div class="progress-text" id="progressText">進度：0 / 0</div>
+        </div>
+        <button class="reset-btn" onclick="resetProgress()">重置打卡</button>
+    </header>
+
+    <div class="main-container">
+        <div class="itinerary-panel" id="itineraryList">
+            </div>
+
+        <div class="map-panel">
+            <div id="map"></div>
+            <button class="locate-btn" onclick="locateUser()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                定位
+            </button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // 1. 行程資料
+        const itineraryData = [
+            {
+                day: "第 1 天",
+                date: "1/19 (一) 新竹 → 台北",
+                stops: [
+                    { time: "08:00", name: "新竹竹蓮寺" },
+                    { time: "09:40", name: "忠貞新村文化園區" },
+                    { time: "14:20", name: "富貴角燈塔", tag: "極北點" },
+                    { time: "17:00", name: "跳石海岸" },
+                    { time: "18:40", name: "野柳地質公園" },
+                    { time: "20:20", name: "台北101" },
+                    { time: "21:35", name: "Qtime 忠孝店" }
+                ]
+            },
+            {
+                day: "第 2 天",
+                date: "1/20 (二) 台北 → 宜蘭",
+                stops: [
+                    { time: "09:34", name: "基隆海洋廣場" },
+                    { time: "10:54", name: "三貂角燈塔", tag: "極東點" },
+                    { time: "13:34", name: "空氣島彈跳工廠" },
+                    { time: "17:44", name: "南方澳情人灣" },
+                    { time: "19:54", name: "露境公社背包客棧" }
+                ]
+            },
+            {
+                day: "第 3 天",
+                date: "1/21 (三) 宜蘭 → 花蓮",
+                stops: [
+                    { time: "10:44", name: "太魯閣國家公園" },
+                    { time: "14:08", name: "七星潭海岸風景特定區" },
+                    { time: "15:53", name: "夏舞民宿" }
+                ]
+            },
+            {
+                day: "第 4 天",
+                date: "1/22 (四) 花蓮 → 台東",
+                stops: [
+                    { time: "10:02", name: "新社梯田" },
+                    { time: "11:25", name: "石梯坪" },
+                    { time: "11:37", name: "北迴歸線標碑 (花蓮)" },
+                    { time: "12:51", name: "三仙台" },
+                    { time: "16:11", name: "台東鐵道藝術村" },
+                    { time: "17:23", name: "茶樂二重奏" }
+                ]
+            },
+            {
+                day: "第 5 天",
+                date: "1/23 (五) 台東 → 屏東",
+                stops: [
+                    { time: "09:38", name: "華源觀景台-天空之鏡" },
+                    { time: "11:18", name: "多良觀光車站" },
+                    { time: "12:53", name: "9420濱海公園" },
+                    { time: "14:03", name: "大武之心南迴驛" },
+                    { time: "15:38", name: "壽卡鐵馬驛站" },
+                    { time: "17:18", name: "旭海美景" },
+                    { time: "19:03", name: "鵝鑾鼻燈塔", tag: "極南點" },
+                    { time: "20:08", name: "車城福安旅館" }
+                ]
+            },
+            {
+                day: "第 6 天",
+                date: "1/24 (六) 屏東 → 高雄",
+                stops: [
+                    { time: "10:31", name: "草衙道創藝基地" },
+                    { time: "15:47", name: "高雄85大樓" },
+                    { time: "17:18", name: "駁二藝術特區" },
+                    { time: "18:43", name: "高雄住的地方" }
+                ]
+            },
+            {
+                day: "第 7 天",
+                date: "1/25 (日) 高雄 → 嘉義",
+                stops: [
+                    { time: "12:50", name: "神農街" },
+                    { time: "14:30", name: "國聖燈塔", tag: "極西點" },
+                    { time: "16:10", name: "井仔腳瓦盤鹽田" },
+                    { time: "18:25", name: "高跟鞋教堂" },
+                    { time: "19:26", name: "光影民宿" }
+                ]
+            },
+            {
+                day: "第 8 天",
+                date: "1/26 (一) 嘉義 → 雲林",
+                stops: [
+                    { time: "09:08", name: "北回歸線太陽館" },
+                    { time: "10:22", name: "民主火雞肉飯" },
+                    { time: "11:46", name: "星巴克 嘉義民雄門市" },
+                    { time: "12:47", name: "虎尾鐵橋" },
+                    { time: "14:14", name: "西螺大橋" },
+                    { time: "15:18", name: "延平老街" },
+                    { time: "16:40", name: "漯河民宿" }
+                ]
+            },
+            {
+                day: "第 9 天",
+                date: "1/27 (二) 雲林 → 台中",
+                stops: [
+                    { time: "10:12", name: "落羽松森林" },
+                    { time: "14:13", name: "日月潭" },
+                    { time: "17:23", name: "銀河鐵道望景餐廳" },
+                    { time: "19:53", name: "轉角秘密基地夜景" },
+                    { time: "21:58", name: "國立臺中科技大學" }
+                ]
+            },
+            {
+                day: "第 10 天",
+                date: "1/28 (三) 台中 → 新竹",
+                stops: [
+                    { time: "08:00", name: "國立臺中科技大學" },
+                    { time: "09:27", name: "回到新竹" }
+                ]
+            }
+        ];
+
+        // 2. 初始化地圖
+        var map = L.map('map', {zoomControl: false}).setView([23.6, 121], 7);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // 添加重要景點標記
+        const markers = [
+            {lat: 24.798, lng: 120.970, t: "新竹竹蓮寺 (起點)"},
+            {lat: 25.298, lng: 121.536, t: "富貴角 (北)"},
+            {lat: 25.007, lng: 122.001, t: "三貂角 (東)"},
+            {lat: 24.151, lng: 121.624, t: "太魯閣"},
+            {lat: 21.902, lng: 120.852, t: "鵝鑾鼻 (南)"},
+            {lat: 23.100, lng: 120.036, t: "國聖燈塔 (西)"},
+            {lat: 23.866, lng: 120.916, t: "日月潭"}
+        ];
+
+        markers.forEach(m => {
+            L.marker([m.lat, m.lng]).addTo(map).bindPopup(m.t);
+        });
+
+        // 3. 渲染行程表 & 打卡功能
+        const listContainer = document.getElementById('itineraryList');
+        
+        // 讀取儲存的打卡狀態
+        let checkedStops = JSON.parse(localStorage.getItem('trip2026_checks') || '{}');
+
+        function renderItinerary() {
+            listContainer.innerHTML = '';
+            let totalStops = 0;
+            let checkedCount = 0;
+
+            itineraryData.forEach((day, dIndex) => {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'day-group';
+                
+                // 標題
+                dayDiv.innerHTML = `<div class="day-title">${day.day} <span>${day.date.split(' ')[1]}</span></div>`;
+
+                day.stops.forEach((stop, sIndex) => {
+                    const id = `d${dIndex}_s${sIndex}`;
+                    const isChecked = checkedStops[id] || false;
+                    totalStops++;
+                    if(isChecked) checkedCount++;
+
+                    const stopDiv = document.createElement('div');
+                    stopDiv.className = `stop-card ${isChecked ? 'checked' : ''}`;
+                    stopDiv.innerHTML = `
+                        <div class="check-btn ${isChecked ? 'active' : ''}" onclick="toggleCheck('${id}')">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                        <div class="stop-content" onclick="toggleCheck('${id}')">
+                            <div class="stop-time">${stop.time} ${stop.tag ? '• <span style="color:#FF9500">'+stop.tag+'</span>' : ''}</div>
+                            <div class="stop-name">${stop.name}</div>
+                        </div>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(stop.name)}" target="_blank" class="nav-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                        </a>
+                    `;
+                    dayDiv.appendChild(stopDiv);
+                });
+                listContainer.appendChild(dayDiv);
+            });
+
+            // 更新進度條
+            document.getElementById('progressText').innerText = `完成度：${Math.round((checkedCount/totalStops)*100)}% (${checkedCount}/${totalStops})`;
+        }
+
+        // 打卡功能
+        window.toggleCheck = function(id) {
+            if (checkedStops[id]) {
+                delete checkedStops[id];
+            } else {
+                checkedStops[id] = true;
+            }
+            localStorage.setItem('trip2026_checks', JSON.stringify(checkedStops));
+            renderItinerary();
+        }
+
+        // 重置功能
+        window.resetProgress = function() {
+            if(confirm('確定要清除所有打卡紀錄嗎？')) {
+                checkedStops = {};
+                localStorage.removeItem('trip2026_checks');
+                renderItinerary();
+            }
+        }
+
+        // 定位功能
+        window.locateUser = function() {
+            if (!navigator.geolocation) {
+                alert("瀏覽器不支援定位");
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(position => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                
+                if (window.userMarker) {
+                    window.userMarker.setLatLng([lat, lng]);
+                } else {
+                    window.userMarker = L.marker([lat, lng], {
+                        icon: L.divIcon({
+                            className: 'user-loc',
+                            html: '<div style="background:#007AFF;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.3)"></div>',
+                            iconSize: [20, 20]
+                        })
+                    }).addTo(map);
+                }
+                map.setView([lat, lng], 14);
+            }, () => alert("無法獲取位置，請確認已授權。"));
+        }
+
+        // 啟動渲染
+        renderItinerary();
+    </script>
+</body>
+</html>
