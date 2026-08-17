@@ -91,10 +91,6 @@ toc: false
 
 ## 個人社群
 
-**instagram（有事請私訊本帳）：** [huang.tank](https://www.instagram.com/huang.tank/)
-**Discord：** ice.__06
-**GitHub：** [huangtank](https://github.com/huangtank)
-
----
-
-之前的舊網頁內容都還留著，放在 [舊網頁整理](/legacy/) 頁面，之後會慢慢分類搬過來。
+* **instagram：** [huang.tank](https://www.instagram.com/huang.tank/)
+* **Discord：** ice.__06
+* **GitHub：** [huangtank](https://github.com/huangtank)
