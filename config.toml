@@ -33,8 +33,8 @@ disableSitemap  = false
   enableReadingTime     = true
   enableGlobalLanguageMenu = false
 
-  customCSS = []
-  customJS  = []
+  customCSS = ["css/effects.css"]
+  customJS  = ["js/effects.js"]
 
   [params.author]
     name = "huangtank"
