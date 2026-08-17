@@ -1,0 +1,92 @@
+baseURL      = "https://huangtank.github.io/"
+title        = "Huangtank"
+locale       = "zh-tw"
+theme        = "hello-friend-ng"
+
+pagination.pagerSize = 10
+
+enableRobotsTXT = true
+enableEmoji     = true
+disableRSS      = false
+disableSitemap  = false
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
+
+  # Home subtitle of the index page.
+  homeSubtitle = "個人網頁"
+
+  description = "huangtank 的個人網頁"
+  keywords    = "huangtank, 個人網頁, blog"
+  images      = [""]
+
+  disableReadOtherPosts = false
+  enableThemeToggle     = true
+  enableSharingButtons  = false
+  enableReadingTime     = true
+  enableGlobalLanguageMenu = false
+
+  customCSS = []
+  customJS  = []
+
+  [params.author]
+    name = "huangtank"
+
+  [params.footer]
+    trademark  = 2026
+    rss        = true
+    copyright  = true
+    author     = true
+    topText    = []
+    bottomText = [
+      "Powered by <a href=\"http://gohugo.io\">Hugo</a> &amp; <a href=\"https://github.com/rhazdon/hugo-theme-hello-friend-ng\">hello-friend-ng</a>"
+    ]
+
+  [params.favicon.color]
+    mask          = "#1b1c1d"
+    msapplication = "#1b1c1d"
+    theme         = "#1b1c1d"
+
+  [params.logo]
+    logoMark     = ">"
+    logoText     = "$ cd /home/huangtank"
+    logoHomeLink = "/"
+
+  [[params.social]]
+    name = "email"
+    url  = "mailto:tank1114.huang@gmail.com"
+
+  [[params.social]]
+    name = "github"
+    url  = "https://github.com/huangtank"
+
+[languages]
+  [languages.zh-tw]
+    title     = "Huangtank"
+    weight    = 1
+    copyright = '&copy; 2026 huangtank'
+  [languages.zh-tw.params]
+    subtitle = "個人網頁"
+
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "/about/"
+
+  [[menu.main]]
+    identifier = "posts"
+    name       = "Posts"
+    url        = "/posts/"
+
+  [[menu.main]]
+    identifier = "legacy"
+    name       = "舊網頁整理"
+    url        = "/legacy/"
