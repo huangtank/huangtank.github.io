@@ -85,7 +85,6 @@ toc: false
 ## 專長
 * python / c++
 * html / css
-* vibe coding
 
 ---
 
@@ -94,3 +93,4 @@ toc: false
 * **instagram：** [huang.tank](https://www.instagram.com/huang.tank/)
 * **Discord：** ice.__06
 * **GitHub：** [huangtank](https://github.com/huangtank)
+* **mail：** me@huangtank.tw
