@@ -207,7 +207,7 @@
 <script>
     // --- 1. Firebase 設定 (已填入您的 API) ---
     const firebaseConfig = {
-        apiKey: "__FIREBASE_API_KEY__",
+        apiKey: "__FIREBASE_API_KEY__", // 部署時由 GitHub Actions 從 secrets.FIREBASE_API_KEY 填入
         authDomain: "trip2026-29103.firebaseapp.com",
         databaseURL: "https://trip2026-29103-default-rtdb.asia-southeast1.firebasedatabase.app/",
         projectId: "trip2026-29103",

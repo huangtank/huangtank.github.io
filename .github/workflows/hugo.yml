@@ -43,6 +43,19 @@ jobs:
             --gc \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Inject Firebase API key
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+        run: |
+          if [ -z "$FIREBASE_API_KEY" ]; then
+            echo "::error::Repository secret FIREBASE_API_KEY is not set (Settings → Secrets and variables → Actions)"
+            exit 1
+          fi
+          sed -i "s|__FIREBASE_API_KEY__|${FIREBASE_API_KEY}|g" public/itinerary.html
+          if grep -q "__FIREBASE_API_KEY__" public/itinerary.html; then
+            echo "::error::Placeholder still present in public/itinerary.html"
+            exit 1
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
