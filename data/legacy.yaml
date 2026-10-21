@@ -1,0 +1,42 @@
+# 舊網頁卡片清單，由 content/legacy.md 的 {{< legacy-cards >}} 讀取。
+# image 是 static/ 底下的路徑，建議比例 16:10（例如 800x500）。
+groups:
+  - name: 段考複習
+    items:
+      - title: 生物第三次段考
+        desc: 生物選擇題題庫
+        url: /biology.html
+        image: /images/legacy/biology.jpg
+
+  - name: 小遊戲
+    items:
+      - title: 1A2B
+        desc: 猜數字小遊戲
+        url: /1a2b/1a2b.html
+        image: /images/legacy/1a2b.jpg
+      - title: 3D 多視窗
+        desc: three.js 跨視窗 3D 實驗
+        url: /game/game.html
+        image: /images/legacy/game.jpg
+
+  - name: 生活工具
+    items:
+      - title: 環島戰情室 2026
+        desc: 環島行程與自訂導航
+        url: /itinerary.html
+        image: /images/legacy/itinerary.jpg
+      - title: 倒數統測
+        desc: 統測倒數計時器
+        url: /倒數統測.html
+        image: /images/legacy/countdown.jpg
+
+  - name: 其他
+    items:
+      - title: 網頁範例
+        desc: CSS 圖片邊框、敘述等示範
+        url: /test.html
+        image: /images/legacy/test.jpg
+      - title: love
+        desc: 你喜歡皮卡丘嗎？
+        url: /love.html
+        image: /images/legacy/love.jpg
