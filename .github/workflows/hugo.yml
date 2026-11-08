@@ -43,8 +43,6 @@ jobs:
             --gc \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
-<<<<<<< HEAD
-=======
       - name: Inject Firebase API key
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -58,7 +56,6 @@ jobs:
             echo "::error::Placeholder still present in public/itinerary.html"
             exit 1
           fi
->>>>>>> be4b9cafc75688bcb1ed4fd3a6d37b8e132aa694
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
