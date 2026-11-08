@@ -5,6 +5,7 @@ draft: false
 toc: false
 ---
 
+<<<<<<< HEAD
 搬家前的舊網頁內容，先原封不動放著，之後再慢慢整理成正式的 Hugo 內容。
 
 - [首頁 (舊)](/old-index.html)
@@ -19,3 +20,8 @@ toc: false
 - [倒數統測](/倒數統測.html)
 - [1a2b 小遊戲](/1a2b/1a2b.html)
 - [game](/game/game.html)
+=======
+舊網站的網頁內容，先原封不動放著，之後再慢慢整理成正式的 Hugo 內容。
+
+{{< legacy-cards >}}
+>>>>>>> be4b9cafc75688bcb1ed4fd3a6d37b8e132aa694

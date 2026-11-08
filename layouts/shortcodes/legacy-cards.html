@@ -1,0 +1,18 @@
+{{- range site.Data.legacy.groups }}
+<section class="card-group">
+  <h2>{{ .name }}</h2>
+  <div class="card-grid">
+    {{- range .items }}
+    <a class="card" href="{{ .url }}">
+      <div class="card-thumb">
+        <img src="{{ .image }}" alt="{{ .title }} 預覽圖" width="800" height="500" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="card-title">{{ .title }}</span>
+        <span class="card-desc">{{ .desc }}</span>
+      </div>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
